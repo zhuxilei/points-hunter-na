@@ -199,6 +199,7 @@
       color: var(--muted);
       font-size: 0.82rem;
     }
+    .lang-hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -212,18 +213,27 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">Daily Deals &amp; Insights</div>
-  <h1>Turn Everyday Spend Into<br/><em>Free Travel</em></h1>
-  <p>Daily roundups on credit card bonuses, airline miles transfers, hotel points, and mistake fares — curated from North America.</p>
+  <div class="hero-badge lang-hidden" data-lang="zh">每日积分干货</div>
+  <div class="hero-badge" data-lang="en">Daily Deals &amp; Insights</div>
+
+  <h1 data-lang="en">Turn Everyday Spend Into<br/><em>Free Travel</em></h1>
+  <h1 class="lang-hidden" data-lang="zh">用积分飞商务舱<br/><em>从北美出发</em></h1>
+
+  <p data-lang="en">Daily roundups on credit card bonuses, airline miles transfers, hotel points, and mistake fares — curated from North America.</p>
+  <p class="lang-hidden" data-lang="zh">信用卡开卡奖励 · 里程转换Bonus · 酒店积分 · Bug票<br/>每天帮你盯着，不错过任何好Deal。</p>
 </section>
 
 <div class="container">
-  <p class="section-title">Latest Posts</p>
+  <p class="section-title" data-lang="en">Latest Posts</p>
+  <p class="section-title lang-hidden" data-lang="zh">最新文章</p>
+
+<div class="container">
   <div class="grid" id="post-grid"></div>
 </div>
 
 <footer>
-  © 2026 Points Hunter NA · Not affiliated with any bank or airline · Always verify offers before applying.
+  <span data-lang="en">© 2026 Points Hunter NA · Not affiliated with any bank or airline · Always verify offers before applying.</span>
+  <span class="lang-hidden" data-lang="zh">© 2026 积分猎人在北美 · 与任何银行或航司无关 · 申请前请以官网为准</span>
 </footer>
 
 <script>
@@ -277,6 +287,9 @@
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.classList.toggle('lang-hidden', el.dataset.lang !== lang);
+    });
     renderPosts(lang);
   }
 
