@@ -82,7 +82,7 @@
 
     .disclaimer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.76rem; color: var(--muted); line-height: 1.8; }
 
-    [data-lang] { display: none; }
+    .lang-hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -235,7 +235,7 @@
   function setLang(lang) {
     localStorage.setItem('ph-lang', lang);
     document.querySelectorAll('[data-lang]').forEach(el => {
-      el.style.display = el.dataset.lang === lang ? '' : 'none';
+      el.classList.toggle('lang-hidden', el.dataset.lang !== lang);
     });
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
