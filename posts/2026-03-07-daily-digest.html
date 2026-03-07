@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Digest Mar 7, 2026 | Points Hunter NA</title>
+  <meta name="description" content="Chase Marriott Boundless 5 free nights ending March 12. March transfer bonuses: Chase UR to Avios +20%, Wyndham +30%, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a24;
+      --surface2: #22222f;
+      --border: #2e2e3e;
+      --accent: #7c6ef7;
+      --accent2: #f7c26e;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --tag-bg: #2a2a3a;
+      --red: #f76e6e;
+      --green: #6ef7a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      background: rgba(15,15,19,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent); }
+
+    .article-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 6rem;
+    }
+
+    /* Header */
+    .article-header { margin-bottom: 2.5rem; }
+    .article-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 99px;
+      margin-bottom: 1rem;
+    }
+    .article-header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+    }
+    .article-meta .dot { color: var(--border); }
+
+    /* Alert Box */
+    .alert {
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      margin: 1.8rem 0;
+      border: 1px solid;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .alert.urgent {
+      background: rgba(247,110,110,0.08);
+      border-color: rgba(247,110,110,0.3);
+    }
+    .alert-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .alert-body strong { color: var(--red); display: block; margin-bottom: 4px; font-size: 0.9rem; }
+    .alert-body p { color: var(--text); font-size: 0.9rem; margin: 0; }
+
+    /* Section */
+    .section { margin: 2.5rem 0; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.2rem;
+    }
+    .section-icon { font-size: 1.3rem; }
+    .section h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    /* Highlight Card */
+    .highlight-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .highlight-card.hot {
+      background: linear-gradient(135deg, #1e1b3a 0%, var(--surface) 100%);
+      border-color: var(--accent);
+    }
+    .highlight-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .highlight-card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.6rem; }
+    .highlight-card p:last-child { margin-bottom: 0; }
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 0.8rem;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 99px;
+      color: var(--text);
+    }
+    .pill .val { color: var(--green); }
+    .pill .warn { color: var(--red); }
+
+    /* Transfer Table */
+    .transfer-table { width: 100%; border-collapse: collapse; }
+    .transfer-table th {
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .transfer-table td {
+      padding: 0.85rem 1rem;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .transfer-table tr:last-child td { border-bottom: none; }
+    .transfer-table tbody tr:hover td { background: var(--surface2); }
+    .bonus-chip {
+      display: inline-block;
+      background: rgba(110,247,160,0.12);
+      border: 1px solid rgba(110,247,160,0.3);
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 99px;
+    }
+    .date-chip {
+      font-size: 0.78rem;
+      color: var(--accent2);
+    }
+
+    /* Tip Box */
+    .tip-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 1.2rem 1.4rem;
+      margin: 1.8rem 0;
+      font-size: 0.9rem;
+    }
+    .tip-box strong { color: var(--accent); }
+
+    /* Warning Box */
+    .warning-box {
+      background: rgba(247,194,110,0.07);
+      border: 1px solid rgba(247,194,110,0.25);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      font-size: 0.88rem;
+    }
+    .warning-box strong { color: var(--accent2); }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* Disclaimer */
+    .disclaimer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-brand">✈️ Points Hunter <span>NA</span></a>
+</nav>
+
+<div class="article-wrap">
+  <a href="../index.html" class="back-link">← All Posts</a>
+
+  <div class="article-header">
+    <div class="article-badge">🗓️ Daily Digest</div>
+    <h1>5 Free Nights Ending Soon + All March Transfer Bonuses</h1>
+    <div class="article-meta">
+      <span>March 7, 2026</span>
+      <span class="dot">·</span>
+      <span>3 min read</span>
+      <span class="dot">·</span>
+      <span>Chase · Amex · Capital One · Citi</span>
+    </div>
+  </div>
+
+  <!-- URGENT ALERT -->
+  <div class="alert urgent">
+    <span class="alert-icon">🚨</span>
+    <div class="alert-body">
+      <strong>ENDING MARCH 12, 7AM EST</strong>
+      <p>Chase Marriott Bonvoy Boundless all-time high welcome offer: <strong>5 free night certificates</strong> (up to 50K pts each). Don't sleep on this one.</p>
+    </div>
+  </div>
+
+  <!-- FEATURED DEAL -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🏨</span>
+      <h2>Featured Deal: Chase Marriott Bonvoy Boundless</h2>
+    </div>
+
+    <div class="highlight-card hot">
+      <h3>5 × Free Night Certificates (Up to 50,000 pts each)</h3>
+      <p>The all-time best offer on the Boundless card is back — and wrapping up fast.</p>
+      <div class="pill-list">
+        <span class="pill">Spend: <span class="val">$3,000 / 3 months</span></span>
+        <span class="pill">Annual fee: $95</span>
+        <span class="pill">Ends: <span class="warn">Mar 12</span></span>
+      </div>
+    </div>
+
+    <div class="highlight-card">
+      <h3>Why it's worth it</h3>
+      <p>Each 50K certificate covers a wide range of Marriott properties — think Westin, Le Méridien, W Hotels. Five certificates could easily cover a week-long trip with zero additional points spending.</p>
+      <p>For 2026 only, the card also offers <strong>up to $100/year in airline purchase credits</strong> ($50 per half-year) — partially offsetting the annual fee from day one.</p>
+    </div>
+  </div>
+
+  <!-- TRANSFER BONUSES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">💰</span>
+      <h2>March Transfer Bonuses (Full List)</h2>
+    </div>
+
+    <div class="highlight-card">
+      <table class="transfer-table">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Bonus</th>
+            <th>Ends</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chase UR</td>
+            <td>Aer Lingus / British Airways / Iberia (Avios)</td>
+            <td><span class="bonus-chip">+20%</span></td>
+            <td><span class="date-chip">Mar 31</span></td>
+          </tr>
+          <tr>
+            <td>Chase UR</td>
+            <td>Wyndham Rewards</td>
+            <td><span class="bonus-chip">+30%</span></td>
+            <td><span class="date-chip">Mar 31</span></td>
+          </tr>
+          <tr>
+            <td>Citi TYP</td>
+            <td>Wyndham Rewards</td>
+            <td><span class="bonus-chip">+25%</span></td>
+            <td><span class="date-chip">Mar 21</span></td>
+          </tr>
+          <tr>
+            <td>Capital One</td>
+            <td>Preferred Hotels I Prefer</td>
+            <td><span class="bonus-chip">+30%</span></td>
+            <td><span class="date-chip">Mar 31</span></td>
+          </tr>
+          <tr>
+            <td>Rove Miles</td>
+            <td>Japan Airlines (JAL)</td>
+            <td><span class="bonus-chip">+50%</span></td>
+            <td><span class="date-chip">Mar 31</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Quick take on Chase UR → Avios +20%</strong><br/>
+      1,000 UR = 1,200 Avios during the bonus. Avios unlocks great value on short-haul redemptions within the US (via AA) and Europe. If you've been sitting on a pile of UR, this is a solid window to move them.
+    </div>
+  </div>
+
+  <!-- WARNING -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">⚠️</span>
+      <h2>Program Change Alert</h2>
+    </div>
+    <div class="warning-box">
+      <strong>Amex MR → Cathay Pacific (CX) ratio downgraded</strong><br/><br/>
+      Effective March 1, 2026, the Amex MR transfer ratio to Cathay Pacific dropped from <strong>1:1 → 1:0.8</strong>. If you have a CX redemption in mind, factor in this 20% loss when planning your transfer.
+    </div>
+  </div>
+
+  <!-- AMEX NOTE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">✳️</span>
+      <h2>Amex MR: No Bonus This Month</h2>
+    </div>
+    <div class="highlight-card">
+      <p>Amex Membership Rewards is not currently running any transfer bonuses. Hold your MR points — a bonus could pop up any time, and there's no urgency to transfer without one.</p>
+      <p>The one exception: if you have a specific, time-sensitive redemption lined up and the math still works.</p>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    Data sourced from The Points Guy, FrequentMiler, Doctor of Credit, and Roame. Transfer bonuses may be targeted and subject to change. Always verify on the bank/program's official website before transferring. This is not financial advice.
+  </div>
+</div>
+
+</body>
+</html>
