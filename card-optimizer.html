@@ -451,7 +451,13 @@
     <!-- TAB: COMPARE -->
     <div id="tab-compare" class="hidden">
       <div class="notice">
-        ⚡ 紫色 = 最高倍率 &nbsp;|&nbsp; 绿色 = 不错选择 &nbsp;|&nbsp; 灰色 = 基础倍率。数据仅供参考，以官网为准。
+        ⚡ 紫色 = 最高等效倍率 &nbsp;|&nbsp; 绿色 = 不错选择 &nbsp;|&nbsp; 灰色 = 基础倍率。Marriott ×0.7、Hilton ×0.4 估值加权，数据仅供参考。
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.2rem; flex-wrap:wrap;">
+        <button class="btn btn-outline" id="overseas-btn" onclick="toggleOverseas()" style="display:flex;align-items:center;gap:8px;">
+          🌍 海外消费模式：<strong id="overseas-status">关</strong>
+        </button>
+        <span style="font-size:0.8rem;color:var(--muted);">开启后 Atmos Summit 所有类别变为 3x</span>
       </div>
       <div id="compare-content">
         <!-- filled by JS -->
@@ -625,6 +631,7 @@
       name: 'Honors',
       points: 'Hilton Points',
       annual: '$0/年',
+      cpp: 0.4,
       color: '#0a1a10',
       rates: { dining: 5, grocery: 5, travel: 3, flights: 3, hotels: 7, gas: 5, streaming: 3, rideshare: 3, amazon: 3, other: 3 }
     },
@@ -634,6 +641,7 @@
       name: 'Honors Surpass',
       points: 'Hilton Points',
       annual: '$150/年',
+      cpp: 0.4,
       color: '#0a1a10',
       rates: { dining: 6, grocery: 6, travel: 3, flights: 3, hotels: 12, gas: 6, streaming: 3, rideshare: 3, amazon: 4, other: 3 }
     },
@@ -643,6 +651,7 @@
       name: 'Honors Aspire',
       points: 'Hilton Points',
       annual: '$550/年',
+      cpp: 0.4,
       color: '#0a1a10',
       rates: { dining: 7, grocery: 3, travel: 7, flights: 7, hotels: 14, gas: 3, streaming: 3, rideshare: 7, amazon: 3, other: 3 }
     },
@@ -653,6 +662,7 @@
       name: 'Bonvoy Bevy',
       points: 'Marriott Pts',
       annual: '$250/年',
+      cpp: 0.7,
       color: '#1a0a10',
       rates: { dining: 4, grocery: 4, travel: 2, flights: 2, hotels: 6, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
     },
@@ -662,6 +672,7 @@
       name: 'Bonvoy Brilliant',
       points: 'Marriott Pts',
       annual: '$650/年',
+      cpp: 0.7,
       color: '#1a0a10',
       rates: { dining: 3, grocery: 2, travel: 2, flights: 3, hotels: 6, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
     },
@@ -709,6 +720,7 @@
       name: 'Bonvoy Bold',
       points: 'Marriott Pts',
       annual: '$0/年',
+      cpp: 0.7,
       color: '#1a0a00',
       rates: { dining: 1, grocery: 1, travel: 2, flights: 2, hotels: 3, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
@@ -718,6 +730,7 @@
       name: 'Bonvoy Boundless',
       points: 'Marriott Pts',
       annual: '$95/年',
+      cpp: 0.7,
       color: '#1a0a00',
       rates: { dining: 3, grocery: 3, travel: 2, flights: 2, hotels: 6, gas: 3, streaming: 1, rideshare: 1, amazon: 1, other: 2 }
     },
@@ -727,6 +740,7 @@
       name: 'Bonvoy Bountiful',
       points: 'Marriott Pts',
       annual: '$250/年',
+      cpp: 0.7,
       color: '#1a0a00',
       rates: { dining: 4, grocery: 4, travel: 2, flights: 2, hotels: 6, gas: 2, streaming: 1, rideshare: 1, amazon: 1, other: 2 }
     },
@@ -736,6 +750,7 @@
       name: 'Ritz-Carlton Card',
       points: 'Marriott Pts',
       annual: '$450/年',
+      cpp: 0.7,
       color: '#1a0a00',
       rates: { dining: 3, grocery: 2, travel: 3, flights: 3, hotels: 6, gas: 2, streaming: 2, rideshare: 3, amazon: 2, other: 2 }
     },
@@ -826,6 +841,7 @@
   // ============================================================
   let selectedCards = new Set();
   let currentUser = null;
+  let overseasMode = false;
   let db, auth;
 
   // ============================================================
@@ -979,6 +995,20 @@
   // ============================================================
   // RENDER: comparison table
   // ============================================================
+  function getEffectiveRate(card, catId) {
+    let rate = card.rates[catId] || 1;
+    // Overseas mode: Atmos Summit all categories → 3x
+    if (overseasMode && card.id === 'atmos-summit') rate = 3;
+    // CPP weighting
+    const cpp = card.cpp || 1.0;
+    return rate * cpp;
+  }
+
+  function formatRate(val) {
+    // Show 1 decimal only if not a whole number
+    return Number.isInteger(val) ? val.toString() : val.toFixed(1);
+  }
+
   function renderCompareTable() {
     const wrap = document.getElementById('compare-content');
     const selected = CARDS.filter(c => selectedCards.has(c.id));
@@ -998,15 +1028,18 @@
       <thead>
         <tr>
           <th class="cat-col">消费类别</th>
-          ${selected.map(c => `<th class="card-col">${c.issuer}<br/>${c.name}</th>`).join('')}
+          ${selected.map(c => {
+            const hasCpp = c.cpp && c.cpp !== 1.0;
+            const cppNote = hasCpp ? `<span style="font-size:0.65rem;color:var(--muted);display:block;font-weight:400;">×${c.cpp} cpp估值</span>` : '';
+            return `<th class="card-col">${c.issuer}<br/>${c.name}${cppNote}</th>`;
+          }).join('')}
         </tr>
       </thead>
       <tbody>`;
 
     CATEGORIES.forEach(cat => {
-      // find max rate for this category
-      const rates = selected.map(c => c.rates[cat.id] || 1);
-      const maxRate = Math.max(...rates);
+      const effRates = selected.map(c => getEffectiveRate(c, cat.id));
+      const maxRate = Math.max(...effRates);
 
       html += `<tr>
         <td>
@@ -1017,13 +1050,18 @@
         </td>`;
 
       selected.forEach((c, i) => {
-        const rate = c.rates[cat.id] || 1;
-        const isBest = rate === maxRate && rate > 1;
-        const isGreat = rate >= maxRate * 0.75 && rate > 1 && rate < maxRate;
+        const rawRate = (overseasMode && c.id === 'atmos-summit') ? 3 : (c.rates[cat.id] || 1);
+        const effRate = effRates[i];
+        const isBest = effRate === maxRate && effRate > (c.cpp || 1);
+        const isGreat = effRate >= maxRate * 0.75 && effRate > (c.cpp || 1) && effRate < maxRate;
         const cls = isBest ? 'best' : isGreat ? 'great' : '';
+        const hasCpp = c.cpp && c.cpp !== 1.0;
+        const displayVal = hasCpp ? formatRate(effRate) : rawRate;
+        const rawLabel = hasCpp ? `<span class="points-label">${rawRate}x 原始</span>` : '';
         html += `<td>
           <div>
-            <span class="multiplier ${cls}">${rate}x</span>
+            <span class="multiplier ${cls}">${displayVal}x</span>
+            ${rawLabel}
             <span class="points-label">${c.points}</span>
             ${isBest && selected.length > 1 ? '<span class="best-badge">最优</span>' : ''}
           </div>
@@ -1036,6 +1074,19 @@
     html += `</tbody></table></div>`;
     wrap.innerHTML = html;
   }
+
+  // ============================================================
+  // OVERSEAS TOGGLE
+  // ============================================================
+  window.toggleOverseas = () => {
+    overseasMode = !overseasMode;
+    const btn = document.getElementById('overseas-btn');
+    const status = document.getElementById('overseas-status');
+    status.textContent = overseasMode ? '开' : '关';
+    btn.style.borderColor = overseasMode ? 'var(--accent)' : '';
+    btn.style.color = overseasMode ? 'var(--accent)' : '';
+    renderCompareTable();
+  };
 
   // ============================================================
   // TABS
