@@ -200,6 +200,57 @@
       font-size: 0.82rem;
     }
     .lang-hidden { display: none !important; }
+
+    /* TOOL BANNER */
+    .tool-banner {
+      max-width: 1100px;
+      margin: 0 auto 0;
+      padding: 0 1.5rem;
+    }
+    .tool-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      background: linear-gradient(135deg, #1e1b3a 0%, #1a1a24 100%);
+      border: 1px solid rgba(124,110,247,0.35);
+      border-radius: 16px;
+      padding: 1.4rem 1.8rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.18s;
+      flex-wrap: wrap;
+    }
+    .tool-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 32px rgba(124,110,247,0.15);
+      transform: translateY(-2px);
+    }
+    .tool-card-left { display: flex; align-items: center; gap: 1rem; }
+    .tool-icon { font-size: 2.2rem; flex-shrink: 0; }
+    .tool-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+    .tool-title { font-size: 1.05rem; font-weight: 700; }
+    .tool-desc { font-size: 0.83rem; color: var(--muted); margin-top: 2px; }
+    .tool-cta {
+      background: var(--accent);
+      color: white;
+      padding: 9px 22px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    @media (max-width: 600px) {
+      .tool-card { flex-direction: column; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
@@ -222,6 +273,24 @@
   <p data-lang="en">Daily roundups on credit card bonuses, airline miles transfers, hotel points, and mistake fares — curated from North America.</p>
   <p class="lang-hidden" data-lang="zh">信用卡开卡奖励 · 里程转换Bonus · 酒店积分 · Bug票<br/>每天帮你盯着，不错过任何好Deal。</p>
 </section>
+
+<div class="tool-banner">
+  <a href="card-optimizer.html" class="tool-card">
+    <div class="tool-card-left">
+      <div class="tool-icon">💳</div>
+      <div>
+        <div class="tool-label" data-lang="en">Free Tool</div>
+        <div class="tool-label lang-hidden" data-lang="zh">免费工具</div>
+        <div class="tool-title" data-lang="en">Card Optimizer — What's the best card to swipe?</div>
+        <div class="tool-title lang-hidden" data-lang="zh">刷卡神器 — 每笔消费该刷哪张？</div>
+        <div class="tool-desc" data-lang="en">Pick your cards, get a personalized earn-rate table across 10 spend categories.</div>
+        <div class="tool-desc lang-hidden" data-lang="zh">选好你的卡，自动生成各类消费的攒点倍率对比表。登录后永久保存。</div>
+      </div>
+    </div>
+    <div class="tool-cta" data-lang="en">Try it free →</div>
+    <div class="tool-cta lang-hidden" data-lang="zh">免费试用 →</div>
+  </a>
+</div>
 
 <div class="container">
   <p class="section-title" data-lang="en">Latest Posts</p>
