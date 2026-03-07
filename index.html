@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>积分猎人在北美 · Points Hunter NA</title>
-  <meta name="description" content="北美华人积分玩家的每日干货：信用卡开卡奖励、里程转换、酒店积分、bug票 | Daily credit card points, airline miles & travel deals from North America." />
+  <title>Points Hunter in North America</title>
+  <meta name="description" content="Daily insights on credit card points, airline miles, hotel rewards, and travel deals — from a Chinese expat in North America." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -20,85 +20,181 @@
       --tag-bg: #2a2a3a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
     nav {
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 60px; position: sticky; top: 0;
-      background: rgba(15,15,19,0.92); backdrop-filter: blur(12px); z-index: 100;
+      display: flex;
+      align-items: center;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      background: rgba(15,15,19,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
     }
-    .nav-brand { font-weight: 700; font-size: 1rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .nav-brand span { color: var(--accent); }
-    .nav-sub { font-size: 0.75rem; color: var(--muted); }
-    .hero { text-align: center; padding: 5rem 1.5rem 3rem; max-width: 700px; margin: 0 auto; }
-    .hero-badge { display: inline-block; background: var(--tag-bg); border: 1px solid var(--border); color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 14px; border-radius: 99px; margin-bottom: 1.2rem; }
-    .hero h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 700; line-height: 1.25; margin-bottom: 0.6rem; }
+    .hero {
+      text-align: center;
+      padding: 5rem 1.5rem 3rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 99px;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
     .hero h1 em { color: var(--accent); font-style: normal; }
-    .hero .sub { font-size: 1rem; color: var(--muted); margin-bottom: 0.4rem; }
-    .hero .en { font-size: 0.88rem; color: #555566; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
-    .section-title { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.6rem; transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; }
-    .card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 32px rgba(124,110,247,0.12); }
-    .card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 5rem;
+    }
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 32px rgba(124,110,247,0.12);
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
     .card-date { font-size: 0.78rem; color: var(--muted); }
     .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag { font-size: 0.7rem; font-weight: 600; background: var(--tag-bg); color: var(--accent); padding: 3px 10px; border-radius: 99px; border: 1px solid var(--border); }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: var(--tag-bg);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+    }
     .tag.gold { color: var(--accent2); }
-    .card h2 { font-size: 1rem; font-weight: 700; line-height: 1.4; }
-    .card .en-title { font-size: 0.82rem; color: var(--muted); font-weight: 400; }
-    .card p { font-size: 0.86rem; color: var(--muted); line-height: 1.65; flex: 1; }
-    .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 0.5rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); }
+    .card h2 { font-size: 1.05rem; font-weight: 600; line-height: 1.4; }
+    .card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; flex: 1; }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
     .read-more { color: var(--accent); font-weight: 600; font-size: 0.82rem; }
-    .card.featured { grid-column: 1 / -1; flex-direction: row; gap: 2rem; align-items: flex-start; background: linear-gradient(135deg, #1e1b3a 0%, var(--surface) 100%); }
-    .card.featured .card-body { flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
+    .card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      gap: 2rem;
+      align-items: flex-start;
+      background: linear-gradient(135deg, #1e1b3a 0%, var(--surface) 100%);
+    }
+    .card.featured .card-body { flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
     .card.featured .card-icon { font-size: 3.5rem; line-height: 1; flex-shrink: 0; }
-    .card.featured h2 { font-size: 1.3rem; }
+    .card.featured h2 { font-size: 1.4rem; }
     @media (max-width: 600px) { .card.featured { flex-direction: column; } }
-    footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; line-height: 1.8; }
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
   </style>
 </head>
 <body>
 <nav>
-  <a href="/" class="nav-brand">✈️ 积分猎人在北美 <span>·</span> Points Hunter NA</a>
-  <span class="nav-sub">每日积分干货 · Daily Miles Digest</span>
+  <a href="/" class="nav-brand">✈️ Points Hunter <span>NA</span></a>
 </nav>
-
 <section class="hero">
-  <div class="hero-badge">Daily Deals & Insights · 每日干货</div>
-  <h1>用积分飞商务舱<br/><em>Business Class on Points</em></h1>
-  <p class="sub">北美华人积分玩家｜信用卡开卡奖励 · 里程转换 · 酒店积分 · Bug票</p>
-  <p class="en">Daily roundups on credit card bonuses, airline miles transfers, hotel points & mistake fares — from a Chinese expat in North America.</p>
+  <div class="hero-badge">Daily Deals & Insights</div>
+  <h1>Turn Everyday Spend Into<br/><em>Free Travel</em></h1>
+  <p>Daily roundups on credit card bonuses, airline miles transfers, hotel points, and mistake fares — curated from North America.</p>
 </section>
-
 <div class="container">
-  <p class="section-title">Latest Posts · 最新文章</p>
+  <p class="section-title">Latest Posts</p>
   <div class="grid" id="post-grid"></div>
 </div>
-
 <footer>
-  积分猎人在北美 · Points Hunter NA<br/>
-  Not affiliated with any bank or airline · 与任何银行或航司无关<br/>
-  Always verify offers before applying · 申请前请以官网为准
+  © 2026 Points Hunter NA · Not affiliated with any bank or airline · Always verify offers before applying.
 </footer>
-
 <script>
   const posts = [
     {
       slug: "posts/2026-03-07-daily-digest.html",
-      date: "2026-03-07",
-      tags: ["每日速递", "Transfer Bonus"],
+      date: "Mar 7, 2026",
+      tags: ["Daily Digest", "Transfer Bonus"],
       featured: true,
       icon: "🎯",
-      title: "【3月7日】5晚免费住宿即将截止 + 3月转分Bonus汇总",
-      enTitle: "Mar 7: 5 Free Nights Ending Soon + All March Transfer Bonuses",
-      excerpt: "Chase Marriott Boundless 史高开卡奖励3月12日截止！5张50K免费夜证书。另附：Chase UR转Avios +20%、Wyndham +30%，本月全部转分福利一览。",
-      readTime: "3 min"
+      title: "Daily Digest: 5 Free Nights Ending Soon + March Transfer Bonuses",
+      excerpt: "Chase Marriott Boundless 5×50K free night offer ends March 12. Plus Chase UR → Avios +20%, Wyndham +30%, and everything you need to know about this month's transfer bonuses.",
+      readTime: "3 min read"
     }
   ];
-
   const grid = document.getElementById('post-grid');
   posts.forEach(p => {
     const featured = p.featured ? 'featured' : '';
@@ -108,14 +204,12 @@
       ? `${icon}<div class="card-body">
           <div class="card-meta"><span class="card-date">${p.date}</span><div class="card-tags">${tagsHtml}</div></div>
           <h2>${p.title}</h2>
-          <div class="en-title">${p.enTitle}</div>
           <p>${p.excerpt}</p>
-          <div class="card-footer"><span>${p.readTime} read</span><span class="read-more">阅读全文 / Read more →</span></div>
+          <div class="card-footer"><span>${p.readTime}</span><span class="read-more">Read more →</span></div>
         </div>`
       : `<div class="card-meta"><span class="card-date">${p.date}</span><div class="card-tags">${tagsHtml}</div></div>
-         <h2>${p.title}</h2><div class="en-title">${p.enTitle}</div>
-         <p>${p.excerpt}</p>
-         <div class="card-footer"><span>${p.readTime} read</span><span class="read-more">阅读全文 →</span></div>`;
+         <h2>${p.title}</h2><p>${p.excerpt}</p>
+         <div class="card-footer"><span>${p.readTime}</span><span class="read-more">Read more →</span></div>`;
     grid.innerHTML += `<a href="${p.slug}" class="card ${featured}">${inner}</a>`;
   });
 </script>
