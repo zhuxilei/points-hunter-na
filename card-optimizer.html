@@ -481,6 +481,14 @@
         <svg width="18" height="18" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.4 0 663 0 541.8c0-207.9 138.1-318 273.5-318 69.4 0 126.9 45.7 170.7 45.7 42.8 0 109.1-48.5 186.8-48.5 30.1 0 108.2 2.6 173.3 76.2zm-167.6-193.5c31.6-37.3 54.4-89.1 54.4-140.9 0-7.1-.6-14.3-1.9-20.1-51.6 1.9-113.1 34.5-149.6 76.5-28.2 32.5-55.7 84.4-55.7 137 0 7.8 1.3 15.5 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 46.5 0 103.1-31.3 137.3-71.9z"/></svg>
         用 Apple 账号登录
       </button>
+      <div style="display:flex;align-items:center;gap:10px;width:220px;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:0.75rem;color:var(--muted);">或</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <button class="btn btn-outline" onclick="continueAsGuest()" style="font-size:0.9rem; padding:10px 28px; min-width:220px; color:var(--muted);">
+        👤 游客模式（不保存）
+      </button>
     </div>
     <p style="margin-top:0; font-size:0.78rem; color:var(--muted);">登录即表示同意我们存储你的卡片选择（仅此而已，无广告追踪）</p>
   </div>
@@ -1057,6 +1065,16 @@
     }
   };
 
+  window.continueAsGuest = () => {
+    currentUser = null;
+    // Load from localStorage for guest
+    const saved = localStorage.getItem('ph-guest-cards');
+    if (saved) {
+      try { selectedCards = new Set(JSON.parse(saved)); } catch(e) {}
+    }
+    showGuestMode();
+  };
+
   window.signOutUser = async () => {
     if (auth) await signOut(auth);
     showLogin();
@@ -1079,16 +1097,24 @@
   }
 
   async function saveUserCards(uid) {
-    if (!db || !uid) return;
+    if (!db || !uid) {
+      // Guest mode: save to localStorage
+      localStorage.setItem('ph-guest-cards', JSON.stringify([...selectedCards]));
+      return;
+    }
     try {
       await setDoc(doc(db, 'users', uid), { cards: [...selectedCards] }, { merge: true });
     } catch(e) { console.warn('save failed', e); }
   }
 
-  // ============================================================
-  // UI: show/hide sections
-  // ============================================================
-  function showLogin() {
+  function showDemoMode() {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('app-section').classList.remove('hidden');
+    document.getElementById('nav-right').innerHTML = `<span style="font-size:0.8rem;color:var(--muted)">${t('demoMode')}</span>`;
+    applyStaticStrings();
+    renderCardGrid();
+    renderCompareTable();
+  }
     document.getElementById('login-section').classList.remove('hidden');
     document.getElementById('app-section').classList.add('hidden');
     document.getElementById('nav-right').innerHTML = `
@@ -1119,14 +1145,24 @@
     renderCompareTable();
   }
 
-  function showDemoMode() {
+  // ============================================================
+  // UI: show/hide sections
+  // ============================================================
+  function showLogin() {
     document.getElementById('login-section').classList.add('hidden');
     document.getElementById('app-section').classList.remove('hidden');
-    document.getElementById('nav-right').innerHTML = `<span style="font-size:0.8rem;color:var(--muted)">${t('demoMode')}</span>`;
+    document.getElementById('nav-right').innerHTML = `
+      <span style="font-size:0.8rem;color:var(--muted);">👤 ${pageLang === 'zh' ? '游客模式' : 'Guest'}</span>
+      <button class="btn btn-outline btn-sm" onclick="showLoginGate()">${pageLang === 'zh' ? '登录' : 'Sign in'}</button>`;
     applyStaticStrings();
     renderCardGrid();
     renderCompareTable();
   }
+
+  window.showLoginGate = () => {
+    document.getElementById('login-section').classList.remove('hidden');
+    document.getElementById('app-section').classList.add('hidden');
+  };
 
   // ============================================================
   // RENDER: card selector
@@ -1154,19 +1190,18 @@
     if (selectedCards.has(id)) {
       selectedCards.delete(id);
     } else {
-
       selectedCards.add(id);
     }
     renderCardGrid();
     renderCompareTable();
-    if (currentUser) await saveUserCards(currentUser.uid);
+    await saveUserCards(currentUser ? currentUser.uid : null);
   };
 
   window.clearAll = async () => {
     selectedCards.clear();
     renderCardGrid();
     renderCompareTable();
-    if (currentUser) await saveUserCards(currentUser.uid);
+    await saveUserCards(currentUser ? currentUser.uid : null);
   };
 
   // ============================================================
