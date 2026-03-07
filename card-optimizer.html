@@ -1111,6 +1111,24 @@
     renderCardGrid();
     renderCompareTable();
   }
+
+  function showGuestMode() {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('app-section').classList.remove('hidden');
+    document.getElementById('nav-right').innerHTML = `
+      <span style="font-size:0.8rem;color:var(--muted);">👤 ${pageLang === 'zh' ? '游客模式' : 'Guest'}</span>
+      <button class="btn btn-outline btn-sm" onclick="showLoginGate()">${pageLang === 'zh' ? '登录' : 'Sign in'}</button>`;
+    applyStaticStrings();
+    renderCardGrid();
+    renderCompareTable();
+  }
+
+  window.showLoginGate = () => {
+    document.getElementById('login-section').classList.remove('hidden');
+    document.getElementById('app-section').classList.add('hidden');
+  };
+
+  function showLogin() {
     document.getElementById('login-section').classList.remove('hidden');
     document.getElementById('app-section').classList.add('hidden');
     document.getElementById('nav-right').innerHTML = `
@@ -1136,25 +1154,6 @@
     renderCardGrid();
     renderCompareTable();
   }
-
-  // ============================================================
-  // UI: show/hide sections
-  // ============================================================
-  function showLogin() {
-    document.getElementById('login-section').classList.add('hidden');
-    document.getElementById('app-section').classList.remove('hidden');
-    document.getElementById('nav-right').innerHTML = `
-      <span style="font-size:0.8rem;color:var(--muted);">👤 ${pageLang === 'zh' ? '游客模式' : 'Guest'}</span>
-      <button class="btn btn-outline btn-sm" onclick="showLoginGate()">${pageLang === 'zh' ? '登录' : 'Sign in'}</button>`;
-    applyStaticStrings();
-    renderCardGrid();
-    renderCompareTable();
-  }
-
-  window.showLoginGate = () => {
-    document.getElementById('login-section').classList.remove('hidden');
-    document.getElementById('app-section').classList.add('hidden');
-  };
 
   // ============================================================
   // RENDER: card selector
