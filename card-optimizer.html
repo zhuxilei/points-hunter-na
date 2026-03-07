@@ -435,7 +435,7 @@
     <!-- TAB: SELECT -->
     <div id="tab-select">
       <div class="selected-info">
-        <div class="selected-count">已选 <strong id="sel-count">0</strong> 张 · 最多选 8 张</div>
+        <div class="selected-count">已选 <strong id="sel-count">0</strong> 张</div>
         <button class="btn btn-outline btn-sm" onclick="clearAll()">清空选择</button>
       </div>
       <div class="card-grid" id="card-grid">
@@ -961,10 +961,7 @@
     if (selectedCards.has(id)) {
       selectedCards.delete(id);
     } else {
-      if (selectedCards.size >= 8) {
-        alert('最多选 8 张卡哦～');
-        return;
-      }
+
       selectedCards.add(id);
     }
     renderCardGrid();
