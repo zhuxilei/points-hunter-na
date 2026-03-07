@@ -314,6 +314,41 @@
       margin-top: 2px;
     }
 
+    /* TOOLTIP */
+    .rate-note {
+      display: inline-block;
+      margin-left: 3px;
+      font-size: 0.65rem;
+      color: var(--accent2);
+      cursor: default;
+      position: relative;
+      vertical-align: middle;
+    }
+    .rate-note .tip {
+      visibility: hidden;
+      opacity: 0;
+      background: #2a2a3f;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.75rem;
+      line-height: 1.5;
+      padding: 6px 10px;
+      border-radius: 8px;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 200;
+      transition: opacity 0.15s;
+      pointer-events: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .rate-note:hover .tip {
+      visibility: visible;
+      opacity: 1;
+    }
+
     /* EMPTY STATE */
     .empty {
       text-align: center;
@@ -505,6 +540,7 @@
       points: 'Chase UR',
       annual: '$550/年',
       color: '#1a1a3a',
+      rateNotes: { travel: '需通过 Chase Travel 享受最高倍率', flights: '需通过 Chase Travel', hotels: '需通过 Chase Travel' },
       rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -514,6 +550,7 @@
       points: 'Chase UR',
       annual: '$95/年',
       color: '#1a1a3a',
+      rateNotes: { travel: '需通过 Chase Travel 享受最高倍率', flights: '需通过 Chase Travel', hotels: '需通过 Chase Travel' },
       rates: { dining: 3, grocery: 1, travel: 2, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -523,6 +560,7 @@
       points: 'Chase UR',
       annual: '$0/年',
       color: '#1a1a3a',
+      rateNotes: { travel: '需通过 Chase Travel', flights: '需通过 Chase Travel', hotels: '需通过 Chase Travel' },
       rates: { dining: 3, grocery: 1.5, travel: 5, flights: 5, hotels: 5, gas: 1.5, streaming: 1.5, rideshare: 1.5, amazon: 1.5, other: 1.5 }
     },
     {
@@ -532,6 +570,7 @@
       points: 'Chase UR',
       annual: '$0/年',
       color: '#1a1a3a',
+      rateNotes: { travel: '需通过 Chase Travel', flights: '需通过 Chase Travel', hotels: '需通过 Chase Travel', amazon: '季度轮换类别，非永久' },
       rates: { dining: 3, grocery: 5, travel: 5, flights: 5, hotels: 5, gas: 1, streaming: 1, rideshare: 1, amazon: 5, other: 1 }
     },
     {
@@ -541,6 +580,7 @@
       points: 'Amex MR',
       annual: '$250/年',
       color: '#2a1f0a',
+      rateNotes: { flights: '需直接向航空公司购票', grocery: '仅限美国超市，上限$25K/年' },
       rates: { dining: 4, grocery: 4, travel: 1, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -550,6 +590,7 @@
       points: 'Amex MR',
       annual: '$695/年',
       color: '#2a1f0a',
+      rateNotes: { flights: '需直接向航空公司购票或通过 Amex Travel', hotels: '需通过 Amex Fine Hotels & Resorts 或 The Hotel Collection（Amex Travel）' },
       rates: { dining: 1, grocery: 1, travel: 1, flights: 5, hotels: 5, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -568,6 +609,7 @@
       points: 'C1 Miles',
       annual: '$395/年',
       color: '#0a200a',
+      rateNotes: { flights: '5x 需通过 C1 Travel', hotels: '10x 需通过 C1 Travel' },
       rates: { dining: 2, grocery: 2, travel: 2, flights: 5, hotels: 10, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
     },
     {
@@ -586,6 +628,7 @@
       points: 'Bilt Points',
       annual: '$95/年',
       color: '#1a1020',
+      rateNotes: { dining: '每年二选一：餐饮或超市作为3x类别', grocery: '每年二选一：餐饮或超市作为3x类别（上限$25K/年）' },
       rates: { dining: 3, grocery: 3, travel: 2, flights: 2, hotels: 2, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -633,6 +676,7 @@
       annual: '$0/年',
       cpp: 0.4,
       color: '#0a1a10',
+      rateNotes: { hotels: '仅限希尔顿旗下酒店', dining: '仅限美国餐厅', grocery: '仅限美国超市', gas: '仅限美国加油站' },
       rates: { dining: 5, grocery: 5, travel: 3, flights: 3, hotels: 7, gas: 5, streaming: 3, rideshare: 3, amazon: 3, other: 3 }
     },
     {
@@ -643,6 +687,7 @@
       annual: '$150/年',
       cpp: 0.4,
       color: '#0a1a10',
+      rateNotes: { hotels: '仅限希尔顿旗下酒店', dining: '仅限美国餐厅', grocery: '仅限美国超市', gas: '仅限美国加油站' },
       rates: { dining: 6, grocery: 6, travel: 3, flights: 3, hotels: 12, gas: 6, streaming: 3, rideshare: 3, amazon: 4, other: 3 }
     },
     {
@@ -653,6 +698,7 @@
       annual: '$550/年',
       cpp: 0.4,
       color: '#0a1a10',
+      rateNotes: { hotels: '仅限希尔顿旗下酒店', dining: '全球餐厅', travel: '直接向航司购票及租车', flights: '需直接向航空公司购票' },
       rates: { dining: 7, grocery: 3, travel: 7, flights: 7, hotels: 14, gas: 3, streaming: 3, rideshare: 7, amazon: 3, other: 3 }
     },
     // Marriott Series (Amex)
@@ -664,6 +710,7 @@
       annual: '$250/年',
       cpp: 0.7,
       color: '#1a0a10',
+      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店', dining: '全球餐厅', grocery: '仅限美国超市' },
       rates: { dining: 4, grocery: 4, travel: 2, flights: 2, hotels: 6, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
     },
     {
@@ -674,6 +721,7 @@
       annual: '$650/年',
       cpp: 0.7,
       color: '#1a0a10',
+      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店', dining: '全球餐厅', flights: '需直接向航空公司购票' },
       rates: { dining: 3, grocery: 2, travel: 2, flights: 3, hotels: 6, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
     },
     // Delta Series (Amex)
@@ -684,6 +732,7 @@
       points: 'Delta Miles',
       annual: '$0/年',
       color: '#001020',
+      rateNotes: { flights: '仅限 Delta 购票', dining: '仅限美国餐厅', grocery: '仅限美国超市' },
       rates: { dining: 2, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -693,6 +742,7 @@
       points: 'Delta Miles',
       annual: '$150/年',
       color: '#001020',
+      rateNotes: { flights: '仅限 Delta 购票', dining: '仅限美国餐厅', grocery: '仅限美国超市' },
       rates: { dining: 2, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -702,6 +752,7 @@
       points: 'Delta Miles',
       annual: '$350/年',
       color: '#001020',
+      rateNotes: { flights: '仅限 Delta 购票', hotels: '仅限合作酒店直接预订', dining: '仅限美国餐厅', grocery: '仅限美国超市' },
       rates: { dining: 2, grocery: 2, travel: 1, flights: 3, hotels: 3, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -711,6 +762,7 @@
       points: 'Delta Miles',
       annual: '$650/年',
       color: '#001020',
+      rateNotes: { flights: '仅限 Delta 购票' },
       rates: { dining: 1, grocery: 1, travel: 1, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     // Chase Marriott Series
@@ -722,6 +774,7 @@
       annual: '$0/年',
       cpp: 0.7,
       color: '#1a0a00',
+      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店' },
       rates: { dining: 1, grocery: 1, travel: 2, flights: 2, hotels: 3, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -732,6 +785,7 @@
       annual: '$95/年',
       cpp: 0.7,
       color: '#1a0a00',
+      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店' },
       rates: { dining: 3, grocery: 3, travel: 2, flights: 2, hotels: 6, gas: 3, streaming: 1, rideshare: 1, amazon: 1, other: 2 }
     },
     {
@@ -742,6 +796,7 @@
       annual: '$250/年',
       cpp: 0.7,
       color: '#1a0a00',
+      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店' },
       rates: { dining: 4, grocery: 4, travel: 2, flights: 2, hotels: 6, gas: 2, streaming: 1, rideshare: 1, amazon: 1, other: 2 }
     },
     {
@@ -752,6 +807,7 @@
       annual: '$450/年',
       cpp: 0.7,
       color: '#1a0a00',
+      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店（含丽思卡尔顿）', flights: '需直接向航空公司购票', travel: '租车及直接购买机票' },
       rates: { dining: 3, grocery: 2, travel: 3, flights: 3, hotels: 6, gas: 2, streaming: 2, rideshare: 3, amazon: 2, other: 2 }
     },
     // Alaska Airlines / Atmos (BoA)
@@ -762,6 +818,7 @@
       points: 'Atmos Miles',
       annual: '$75/年',
       color: '#001a2a',
+      rateNotes: { flights: '仅限 Alaska & Hawaiian Airlines 购票', gas: '仅限美国加油站及 EV 充电', streaming: '仅限有线/流媒体订阅', rideshare: '仅限本地交通/打车/公交' },
       rates: { dining: 1, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 2, streaming: 2, rideshare: 2, amazon: 1, other: 1 }
     },
     {
@@ -771,6 +828,7 @@
       points: 'Atmos Miles',
       annual: '$395/年',
       color: '#001a2a',
+      rateNotes: { flights: '仅限 Alaska & Hawaiian Airlines 购票（国内3x，海外开关可全部3x）', dining: '海外模式下3x', other: '海外消费全部3x（需开启海外模式）' },
       rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     // Citi Double Cash
@@ -791,6 +849,7 @@
       points: 'AA Miles',
       annual: '$0/年',
       color: '#1a0a1a',
+      rateNotes: { flights: '仅限 American Airlines 购票', grocery: '仅限美国超市' },
       rates: { dining: 1, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -800,6 +859,7 @@
       points: 'AA Miles',
       annual: '$99/年',
       color: '#1a0a1a',
+      rateNotes: { flights: '仅限 American Airlines 购票', dining: '餐厅消费', gas: '仅限美国加油站' },
       rates: { dining: 2, grocery: 1, travel: 1, flights: 2, hotels: 1, gas: 2, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -809,6 +869,7 @@
       points: 'AA Miles',
       annual: '$595/年',
       color: '#1a0a1a',
+      rateNotes: { flights: '仅限 American Airlines 购票', hotels: '10x 需通过 aa.com/hotels 预订' },
       rates: { dining: 1, grocery: 1, travel: 1, flights: 4, hotels: 10, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     // Citi Strata Elite
@@ -819,6 +880,7 @@
       points: 'Citi TYP',
       annual: '$595/年',
       color: '#0a1a2a',
+      rateNotes: { hotels: '12x 需通过 Citi Travel 预订', flights: '6x 需通过 Citi Travel 购票', dining: '周五周六晚6pm-6am可享6x（Citi Nights）' },
       rates: { dining: 3, grocery: 1, travel: 6, flights: 6, hotels: 12, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
   ];
@@ -1058,9 +1120,11 @@
         const hasCpp = c.cpp && c.cpp !== 1.0;
         const displayVal = hasCpp ? formatRate(effRate) : rawRate;
         const rawLabel = hasCpp ? `<span class="points-label">${rawRate}x 原始</span>` : '';
+        const note = c.rateNotes && c.rateNotes[cat.id];
+        const noteHtml = note ? `<span class="rate-note">⚠<span class="tip">${note}</span></span>` : '';
         html += `<td>
           <div>
-            <span class="multiplier ${cls}">${displayVal}x</span>
+            <span class="multiplier ${cls}">${displayVal}x</span>${noteHtml}
             ${rawLabel}
             <span class="points-label">${c.points}</span>
             ${isBest && selected.length > 1 ? '<span class="best-badge">最优</span>' : ''}
