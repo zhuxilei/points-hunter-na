@@ -56,6 +56,28 @@
     .nav-brand span { color: var(--accent); }
     .nav-right { display: flex; align-items: center; gap: 12px; }
 
+    /* LANG TOGGLE */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 3px;
+    }
+    .lang-btn {
+      padding: 4px 16px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.18s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+
     /* AUTH BTN */
     .btn {
       padding: 8px 20px;
@@ -433,8 +455,14 @@
 
 <nav>
   <a href="index.html" class="nav-brand">✈️ Points Hunter <span>NA</span></a>
-  <div class="nav-right" id="nav-right">
-    <!-- filled by JS -->
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="lang-toggle">
+      <div class="lang-btn" id="page-btn-en" onclick="setPageLang('en')">EN</div>
+      <div class="lang-btn active" id="page-btn-zh" onclick="setPageLang('zh')">中文</div>
+    </div>
+    <div class="nav-right" id="nav-right">
+      <!-- filled by JS -->
+    </div>
   </div>
 </nav>
 
@@ -490,9 +518,9 @@
       </div>
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.2rem; flex-wrap:wrap;">
         <button class="btn btn-outline" id="overseas-btn" onclick="toggleOverseas()" style="display:flex;align-items:center;gap:8px;">
-          🌍 海外消费模式：<strong id="overseas-status">关</strong>
+          🌍 <span id="overseas-label"></span><strong id="overseas-status"></strong>
         </button>
-        <span style="font-size:0.8rem;color:var(--muted);">开启后 Atmos Summit 所有类别变为 3x</span>
+        <span id="overseas-hint" style="font-size:0.8rem;color:var(--muted);"></span>
       </div>
       <div id="compare-content">
         <!-- filled by JS -->
@@ -540,7 +568,7 @@
       points: 'Chase UR',
       annual: '$550/年',
       color: '#1a1a3a',
-      rateNotes: { travel: '需通过 Chase Travel 享受最高倍率', flights: '需通过 Chase Travel', hotels: '需通过 Chase Travel' },
+      rateNotes: { travel: {zh:{zh:'需通过 Chase Travel 享受最高倍率', en:'需通过 Chase Travel 享受最高倍率'}, en:'Must book via Chase Travel for top rate'}, flights: {zh:{zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, en:'Must book via Chase Travel'}, hotels: {zh:{zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, en:'Must book via Chase Travel'} },
       rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -550,7 +578,7 @@
       points: 'Chase UR',
       annual: '$95/年',
       color: '#1a1a3a',
-      rateNotes: { travel: '需通过 Chase Travel 享受最高倍率', flights: '需通过 Chase Travel', hotels: '需通过 Chase Travel' },
+      rateNotes: { travel: {zh:{zh:'需通过 Chase Travel 享受最高倍率', en:'需通过 Chase Travel 享受最高倍率'}, en:'Must book via Chase Travel for top rate'}, flights: {zh:{zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, en:'Must book via Chase Travel'}, hotels: {zh:{zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, en:'Must book via Chase Travel'} },
       rates: { dining: 3, grocery: 1, travel: 2, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -560,7 +588,7 @@
       points: 'Chase UR',
       annual: '$0/年',
       color: '#1a1a3a',
-      rateNotes: { travel: '需通过 Chase Travel', flights: '需通过 Chase Travel', hotels: '需通过 Chase Travel' },
+      rateNotes: { travel: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, flights: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, hotels: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'} },
       rates: { dining: 3, grocery: 1.5, travel: 5, flights: 5, hotels: 5, gas: 1.5, streaming: 1.5, rideshare: 1.5, amazon: 1.5, other: 1.5 }
     },
     {
@@ -570,7 +598,7 @@
       points: 'Chase UR',
       annual: '$0/年',
       color: '#1a1a3a',
-      rateNotes: { travel: '需通过 Chase Travel', flights: '需通过 Chase Travel', hotels: '需通过 Chase Travel', amazon: '季度轮换类别，非永久' },
+      rateNotes: { travel: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, flights: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, hotels: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, amazon: {zh:'季度轮换类别，非永久', en:'Rotating quarterly category, not permanent'} },
       rates: { dining: 3, grocery: 5, travel: 5, flights: 5, hotels: 5, gas: 1, streaming: 1, rideshare: 1, amazon: 5, other: 1 }
     },
     {
@@ -580,7 +608,7 @@
       points: 'Amex MR',
       annual: '$250/年',
       color: '#2a1f0a',
-      rateNotes: { flights: '需直接向航空公司购票', grocery: '仅限美国超市，上限$25K/年' },
+      rateNotes: { flights: {zh:'需直接向航空公司购票', en:'Must purchase directly from airline'}, grocery: {zh:'仅限美国超市，上限$25K/年', en:'US supermarkets only, capped at $25K/yr'} },
       rates: { dining: 4, grocery: 4, travel: 1, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -590,7 +618,7 @@
       points: 'Amex MR',
       annual: '$695/年',
       color: '#2a1f0a',
-      rateNotes: { flights: '需直接向航空公司购票或通过 Amex Travel', hotels: '需通过 Amex Fine Hotels & Resorts 或 The Hotel Collection（Amex Travel）' },
+      rateNotes: { flights: {zh:'需直接向航空公司购票或通过 Amex Travel', en:'Must purchase directly from airline or via Amex Travel'}, hotels: {zh:'需通过 Amex Fine Hotels & Resorts 或 The Hotel Collection（Amex Travel）', en:'Must book via Amex Fine Hotels & Resorts or The Hotel Collection (Amex Travel)'} },
       rates: { dining: 1, grocery: 1, travel: 1, flights: 5, hotels: 5, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -609,7 +637,7 @@
       points: 'C1 Miles',
       annual: '$395/年',
       color: '#0a200a',
-      rateNotes: { flights: '5x 需通过 C1 Travel', hotels: '10x 需通过 C1 Travel' },
+      rateNotes: { flights: {zh:'5x 需通过 C1 Travel', en:'5x must book via Capital One Travel'}, hotels: {zh:'10x 需通过 C1 Travel', en:'10x must book via Capital One Travel'} },
       rates: { dining: 2, grocery: 2, travel: 2, flights: 5, hotels: 10, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
     },
     {
@@ -628,7 +656,7 @@
       points: 'Bilt Points',
       annual: '$95/年',
       color: '#1a1020',
-      rateNotes: { dining: '每年二选一：餐饮或超市作为3x类别', grocery: '每年二选一：餐饮或超市作为3x类别（上限$25K/年）' },
+      rateNotes: { dining: {zh:'每年二选一：餐饮或超市作为3x类别', en:'Choose one per year: dining OR grocery as your 3x category'}, grocery: {zh:'每年二选一：餐饮或超市作为3x类别（上限$25K/年）', en:'Choose one per year: dining OR grocery as 3x (grocery capped at $25K/yr)'} },
       rates: { dining: 3, grocery: 3, travel: 2, flights: 2, hotels: 2, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -676,7 +704,7 @@
       annual: '$0/年',
       cpp: 0.4,
       color: '#0a1a10',
-      rateNotes: { hotels: '仅限希尔顿旗下酒店', dining: '仅限美国餐厅', grocery: '仅限美国超市', gas: '仅限美国加油站' },
+      rateNotes: { hotels: {zh:'仅限希尔顿旗下酒店', en:'Hilton portfolio properties only'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'}, gas: {zh:'仅限美国加油站', en:'US gas stations only'} },
       rates: { dining: 5, grocery: 5, travel: 3, flights: 3, hotels: 7, gas: 5, streaming: 3, rideshare: 3, amazon: 3, other: 3 }
     },
     {
@@ -687,7 +715,7 @@
       annual: '$150/年',
       cpp: 0.4,
       color: '#0a1a10',
-      rateNotes: { hotels: '仅限希尔顿旗下酒店', dining: '仅限美国餐厅', grocery: '仅限美国超市', gas: '仅限美国加油站' },
+      rateNotes: { hotels: {zh:'仅限希尔顿旗下酒店', en:'Hilton portfolio properties only'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'}, gas: {zh:'仅限美国加油站', en:'US gas stations only'} },
       rates: { dining: 6, grocery: 6, travel: 3, flights: 3, hotels: 12, gas: 6, streaming: 3, rideshare: 3, amazon: 4, other: 3 }
     },
     {
@@ -698,7 +726,7 @@
       annual: '$550/年',
       cpp: 0.4,
       color: '#0a1a10',
-      rateNotes: { hotels: '仅限希尔顿旗下酒店', dining: '全球餐厅', travel: '直接向航司购票及租车', flights: '需直接向航空公司购票' },
+      rateNotes: { hotels: {zh:'仅限希尔顿旗下酒店', en:'Hilton portfolio properties only'}, dining: {zh:'全球餐厅', en:'Worldwide restaurants'}, travel: {zh:'直接向航司购票及租车', en:'Direct airline bookings and car rentals'}, flights: {zh:'需直接向航空公司购票', en:'Must purchase directly from airline'} },
       rates: { dining: 7, grocery: 3, travel: 7, flights: 7, hotels: 14, gas: 3, streaming: 3, rideshare: 7, amazon: 3, other: 3 }
     },
     // Marriott Series (Amex)
@@ -710,7 +738,7 @@
       annual: '$250/年',
       cpp: 0.7,
       color: '#1a0a10',
-      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店', dining: '全球餐厅', grocery: '仅限美国超市' },
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'}, dining: {zh:'全球餐厅', en:'Worldwide restaurants'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
       rates: { dining: 4, grocery: 4, travel: 2, flights: 2, hotels: 6, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
     },
     {
@@ -721,7 +749,7 @@
       annual: '$650/年',
       cpp: 0.7,
       color: '#1a0a10',
-      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店', dining: '全球餐厅', flights: '需直接向航空公司购票' },
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'}, dining: {zh:'全球餐厅', en:'Worldwide restaurants'}, flights: {zh:'需直接向航空公司购票', en:'Must purchase directly from airline'} },
       rates: { dining: 3, grocery: 2, travel: 2, flights: 3, hotels: 6, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
     },
     // Delta Series (Amex)
@@ -732,7 +760,7 @@
       points: 'Delta Miles',
       annual: '$0/年',
       color: '#001020',
-      rateNotes: { flights: '仅限 Delta 购票', dining: '仅限美国餐厅', grocery: '仅限美国超市' },
+      rateNotes: { flights: {zh:'仅限 Delta 购票', en:'Delta purchases only'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
       rates: { dining: 2, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -742,7 +770,7 @@
       points: 'Delta Miles',
       annual: '$150/年',
       color: '#001020',
-      rateNotes: { flights: '仅限 Delta 购票', dining: '仅限美国餐厅', grocery: '仅限美国超市' },
+      rateNotes: { flights: {zh:'仅限 Delta 购票', en:'Delta purchases only'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
       rates: { dining: 2, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -752,7 +780,7 @@
       points: 'Delta Miles',
       annual: '$350/年',
       color: '#001020',
-      rateNotes: { flights: '仅限 Delta 购票', hotels: '仅限合作酒店直接预订', dining: '仅限美国餐厅', grocery: '仅限美国超市' },
+      rateNotes: { flights: {zh:'仅限 Delta 购票', en:'Delta purchases only'}, hotels: {zh:'仅限合作酒店直接预订', en:'Must book directly at partner hotels'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
       rates: { dining: 2, grocery: 2, travel: 1, flights: 3, hotels: 3, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -762,7 +790,7 @@
       points: 'Delta Miles',
       annual: '$650/年',
       color: '#001020',
-      rateNotes: { flights: '仅限 Delta 购票' },
+      rateNotes: { flights: {zh:'仅限 Delta 购票', en:'Delta purchases only'} },
       rates: { dining: 1, grocery: 1, travel: 1, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     // Chase Marriott Series
@@ -774,7 +802,7 @@
       annual: '$0/年',
       cpp: 0.7,
       color: '#1a0a00',
-      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店' },
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'} },
       rates: { dining: 1, grocery: 1, travel: 2, flights: 2, hotels: 3, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -785,7 +813,7 @@
       annual: '$95/年',
       cpp: 0.7,
       color: '#1a0a00',
-      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店' },
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'} },
       rates: { dining: 3, grocery: 3, travel: 2, flights: 2, hotels: 6, gas: 3, streaming: 1, rideshare: 1, amazon: 1, other: 2 }
     },
     {
@@ -796,7 +824,7 @@
       annual: '$250/年',
       cpp: 0.7,
       color: '#1a0a00',
-      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店' },
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'} },
       rates: { dining: 4, grocery: 4, travel: 2, flights: 2, hotels: 6, gas: 2, streaming: 1, rideshare: 1, amazon: 1, other: 2 }
     },
     {
@@ -807,7 +835,7 @@
       annual: '$450/年',
       cpp: 0.7,
       color: '#1a0a00',
-      rateNotes: { hotels: '仅限万豪 Bonvoy 旗下酒店（含丽思卡尔顿）', flights: '需直接向航空公司购票', travel: '租车及直接购买机票' },
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店（含丽思卡尔顿）', en:'Marriott Bonvoy properties only (incl. Ritz-Carlton)'}, flights: {zh:'需直接向航空公司购票', en:'Must purchase directly from airline'}, travel: {zh:'租车及直接购买机票', en:'Car rentals and direct airline purchases'} },
       rates: { dining: 3, grocery: 2, travel: 3, flights: 3, hotels: 6, gas: 2, streaming: 2, rideshare: 3, amazon: 2, other: 2 }
     },
     // Alaska Airlines / Atmos (BoA)
@@ -818,7 +846,7 @@
       points: 'Atmos Miles',
       annual: '$75/年',
       color: '#001a2a',
-      rateNotes: { flights: '仅限 Alaska & Hawaiian Airlines 购票', gas: '仅限美国加油站及 EV 充电', streaming: '仅限有线/流媒体订阅', rideshare: '仅限本地交通/打车/公交' },
+      rateNotes: { flights: {zh:'仅限 Alaska & Hawaiian Airlines 购票', en:'Alaska & Hawaiian Airlines purchases only'}, gas: {zh:'仅限美国加油站及 EV 充电', en:'US gas stations & EV charging only'}, streaming: {zh:'仅限有线/流媒体订阅', en:'Cable/streaming subscriptions only'}, rideshare: {zh:'仅限本地交通/打车/公交', en:'Local transit, rideshare & commuter only'} },
       rates: { dining: 1, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 2, streaming: 2, rideshare: 2, amazon: 1, other: 1 }
     },
     {
@@ -828,7 +856,7 @@
       points: 'Atmos Miles',
       annual: '$395/年',
       color: '#001a2a',
-      rateNotes: { flights: '仅限 Alaska & Hawaiian Airlines 购票（国内3x，海外开关可全部3x）', dining: '海外模式下3x', other: '海外消费全部3x（需开启海外模式）' },
+      rateNotes: { flights: {zh:'仅限 Alaska & Hawaiian Airlines 购票（国内3x，海外开关可全部3x）', en:'Alaska & Hawaiian purchases only (domestic 3x; toggle overseas mode for 3x everywhere)'}, dining: {zh:'海外模式下3x', en:'3x when overseas mode is ON'}, other: {zh:'海外消费全部3x（需开启海外模式）', en:'All overseas spend earns 3x (enable overseas mode)'} },
       rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     // Citi Double Cash
@@ -849,7 +877,7 @@
       points: 'AA Miles',
       annual: '$0/年',
       color: '#1a0a1a',
-      rateNotes: { flights: '仅限 American Airlines 购票', grocery: '仅限美国超市' },
+      rateNotes: { flights: {zh:'仅限 American Airlines 购票', en:'American Airlines purchases only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
       rates: { dining: 1, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -859,7 +887,7 @@
       points: 'AA Miles',
       annual: '$99/年',
       color: '#1a0a1a',
-      rateNotes: { flights: '仅限 American Airlines 购票', dining: '餐厅消费', gas: '仅限美国加油站' },
+      rateNotes: { flights: {zh:'仅限 American Airlines 购票', en:'American Airlines purchases only'}, dining: {zh:'餐厅消费', en:'Restaurant purchases'}, gas: {zh:'仅限美国加油站', en:'US gas stations only'} },
       rates: { dining: 2, grocery: 1, travel: 1, flights: 2, hotels: 1, gas: 2, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     {
@@ -869,7 +897,7 @@
       points: 'AA Miles',
       annual: '$595/年',
       color: '#1a0a1a',
-      rateNotes: { flights: '仅限 American Airlines 购票', hotels: '10x 需通过 aa.com/hotels 预订' },
+      rateNotes: { flights: {zh:'仅限 American Airlines 购票', en:'American Airlines purchases only'}, hotels: {zh:'10x 需通过 aa.com/hotels 预订', en:'10x must book via aa.com/hotels'} },
       rates: { dining: 1, grocery: 1, travel: 1, flights: 4, hotels: 10, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
     // Citi Strata Elite
@@ -880,22 +908,22 @@
       points: 'Citi TYP',
       annual: '$595/年',
       color: '#0a1a2a',
-      rateNotes: { hotels: '12x 需通过 Citi Travel 预订', flights: '6x 需通过 Citi Travel 购票', dining: '周五周六晚6pm-6am可享6x（Citi Nights）' },
+      rateNotes: { hotels: {zh:'12x 需通过 Citi Travel 预订', en:'12x must book via Citi Travel'}, flights: {zh:'6x 需通过 Citi Travel 购票', en:'6x must book flights via Citi Travel'}, dining: {zh:'周五周六晚6pm-6am可享6x（Citi Nights）', en:'6x on Fri & Sat nights 6pm–6am (Citi Nights)'} },
       rates: { dining: 3, grocery: 1, travel: 6, flights: 6, hotels: 12, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
     },
   ];
 
   const CATEGORIES = [
-    { id: 'dining',     label: '餐饮', icon: '🍽️' },
-    { id: 'grocery',    label: '超市', icon: '🛒' },
-    { id: 'flights',    label: '机票', icon: '✈️' },
-    { id: 'hotels',     label: '酒店', icon: '🏨' },
-    { id: 'travel',     label: '通用旅行', icon: '🗺️' },
-    { id: 'gas',        label: '加油', icon: '⛽' },
-    { id: 'rideshare',  label: '打车 (Uber/Lyft)', icon: '🚗' },
-    { id: 'streaming',  label: '流媒体订阅', icon: '📺' },
-    { id: 'amazon',     label: 'Amazon', icon: '📦' },
-    { id: 'other',      label: '其他消费', icon: '💳' },
+    { id: 'dining',     zh: '餐饮',            en: 'Dining',           icon: '🍽️' },
+    { id: 'grocery',    zh: '超市',            en: 'Groceries',        icon: '🛒' },
+    { id: 'flights',    zh: '机票',            en: 'Flights',          icon: '✈️' },
+    { id: 'hotels',     zh: '酒店',            en: 'Hotels',           icon: '🏨' },
+    { id: 'travel',     zh: '通用旅行',         en: 'General Travel',   icon: '🗺️' },
+    { id: 'gas',        zh: '加油',            en: 'Gas / EV',         icon: '⛽' },
+    { id: 'rideshare',  zh: '打车 (Uber/Lyft)', en: 'Rideshare',        icon: '🚗' },
+    { id: 'streaming',  zh: '流媒体订阅',       en: 'Streaming',        icon: '📺' },
+    { id: 'amazon',     zh: 'Amazon',          en: 'Amazon',           icon: '📦' },
+    { id: 'other',      zh: '其他消费',         en: 'Everything Else',  icon: '💳' },
   ];
 
   // ============================================================
@@ -904,7 +932,71 @@
   let selectedCards = new Set();
   let currentUser = null;
   let overseasMode = false;
+  let pageLang = localStorage.getItem('ph-lang') || 'zh';
   let db, auth;
+
+  // i18n helper
+  const I18N = {
+    zh: {
+      pageTitle: '我的卡包 💳',
+      pageSub: '选择你持有的卡，查看专属攒点对比',
+      tabSelect: '选择持卡',
+      tabCompare: '消费对比表',
+      selectedCount: (n) => `已选 <strong>${n}</strong> 张`,
+      clearAll: '清空选择',
+      goCompare: '查看对比表 →',
+      notice: '⚡ 紫色 = 最高等效倍率 | 绿色 = 不错选择 | 灰色 = 基础倍率。Marriott ×0.7、Hilton ×0.4 估值加权，数据仅供参考。',
+      overseasLabel: '🌍 海外消费模式：',
+      overseasOn: '开',
+      overseasOff: '关',
+      overseasHint: '开启后 Atmos Summit 所有类别变为 3x',
+      bestBadge: '最优',
+      rawLabel: (r) => `${r}x 原始`,
+      cppNote: (v) => `×${v} cpp估值`,
+      catHeader: '消费类别',
+      emptyTitle: '还没选卡呢',
+      emptyDesc: '先去「选择持卡」选一下你有哪些卡',
+      signIn: '用 Google 账号登录',
+      gateTitle: '我的卡包',
+      gateDesc: '登录后选择你持有的信用卡，自动生成专属消费攒点对比表 —— 一眼看出每笔消费该刷哪张。',
+      gateConsent: '登录即表示同意我们存储你的卡片选择（仅此而已，无广告追踪）',
+      signOut: '退出',
+      demoMode: '演示模式（未连接 Firebase）',
+      footer: '© 2026 积分猎人在北美 · 数据仅供参考，请以各银行官网为准',
+    },
+    en: {
+      pageTitle: 'My Card Wallet 💳',
+      pageSub: 'Select your cards and view your personalized earn-rate table',
+      tabSelect: 'Select Cards',
+      tabCompare: 'Comparison Table',
+      selectedCount: (n) => `<strong>${n}</strong> card${n !== 1 ? 's' : ''} selected`,
+      clearAll: 'Clear all',
+      goCompare: 'View comparison →',
+      notice: '⚡ Purple = highest effective rate | Green = great option | Gray = base rate. Marriott ×0.7, Hilton ×0.4 cpp-weighted. For reference only.',
+      overseasLabel: '🌍 Overseas Mode: ',
+      overseasOn: 'ON',
+      overseasOff: 'OFF',
+      overseasHint: 'When ON, Atmos Summit earns 3x on all categories',
+      bestBadge: 'Best',
+      rawLabel: (r) => `${r}x raw`,
+      cppNote: (v) => `×${v} cpp`,
+      catHeader: 'Spend Category',
+      emptyTitle: 'No cards selected yet',
+      emptyDesc: 'Go to "Select Cards" to choose your cards',
+      signIn: 'Sign in with Google',
+      gateTitle: 'My Card Wallet',
+      gateDesc: 'Sign in to select your credit cards and get a personalized earn-rate comparison — instantly see which card to swipe for every purchase.',
+      gateConsent: 'By signing in, you agree to store your card selections (nothing else, no ad tracking)',
+      signOut: 'Sign out',
+      demoMode: 'Demo mode (Firebase not connected)',
+      footer: '© 2026 Points Hunter NA · For reference only — verify rates with your card issuer',
+    },
+  };
+
+  function t(key, ...args) {
+    const val = I18N[pageLang][key];
+    return typeof val === 'function' ? val(...args) : val;
+  }
 
   // ============================================================
   // FIREBASE INIT
@@ -982,7 +1074,7 @@
     document.getElementById('app-section').classList.add('hidden');
     document.getElementById('nav-right').innerHTML = `
       <button class="btn btn-primary btn-sm" onclick="signInWithGoogle()">
-        <div class="google-icon" style="width:14px;height:14px;font-size:10px;">G</div> 登录
+        <div class="google-icon" style="width:14px;height:14px;font-size:10px;">G</div> ${t('signIn')}
       </button>`;
   }
 
@@ -990,17 +1082,16 @@
     document.getElementById('login-section').classList.add('hidden');
     document.getElementById('app-section').classList.remove('hidden');
     const initial = (user.displayName || user.email || '?')[0].toUpperCase();
-    const avatarHtml = user.photoURL
-      ? `<img src="${user.photoURL}" />`
-      : initial;
+    const avatarHtml = user.photoURL ? `<img src="${user.photoURL}" />` : initial;
     document.getElementById('nav-right').innerHTML = `
       <div class="user-info">
         <div class="avatar">${avatarHtml}</div>
         <span>${user.displayName || user.email}</span>
       </div>
-      <button class="btn btn-outline btn-sm" onclick="signOutUser()">退出</button>`;
+      <button class="btn btn-outline btn-sm" onclick="signOutUser()">${t('signOut')}</button>`;
     document.getElementById('page-sub').textContent =
-      `${user.displayName || ''} · 你的专属攒点对比`;
+      `${user.displayName || ''} · ${t('pageSub')}`;
+    applyStaticStrings();
     renderCardGrid();
     renderCompareTable();
   }
@@ -1008,8 +1099,8 @@
   function showDemoMode() {
     document.getElementById('login-section').classList.add('hidden');
     document.getElementById('app-section').classList.remove('hidden');
-    document.getElementById('nav-right').innerHTML = `<span style="font-size:0.8rem;color:var(--muted)">演示模式（未连接 Firebase）</span>`;
-    document.getElementById('page-sub').textContent = '选择持卡，查看攒点对比（演示模式，数据不保存）';
+    document.getElementById('nav-right').innerHTML = `<span style="font-size:0.8rem;color:var(--muted)">${t('demoMode')}</span>`;
+    applyStaticStrings();
     renderCardGrid();
     renderCompareTable();
   }
@@ -1032,7 +1123,8 @@
           </div>
         </div>`;
     }).join('');
-    document.getElementById('sel-count').textContent = selectedCards.size;
+    const countEl = document.querySelector('.selected-count');
+    if (countEl) countEl.innerHTML = t('selectedCount', selectedCards.size);
   }
 
   window.toggleCard = async (id) => {
@@ -1079,8 +1171,8 @@
       wrap.innerHTML = `
         <div class="empty">
           <div class="empty-icon">💳</div>
-          <h3>还没选卡呢</h3>
-          <p style="margin-top:6px;">先去「选择持卡」选一下你有哪些卡</p>
+          <h3>${t('emptyTitle')}</h3>
+          <p style="margin-top:6px;">${t('emptyDesc')}</p>
         </div>`;
       return;
     }
@@ -1089,10 +1181,10 @@
     let html = `<div class="table-wrap"><table>
       <thead>
         <tr>
-          <th class="cat-col">消费类别</th>
+          <th class="cat-col">${t('catHeader')}</th>
           ${selected.map(c => {
             const hasCpp = c.cpp && c.cpp !== 1.0;
-            const cppNote = hasCpp ? `<span style="font-size:0.65rem;color:var(--muted);display:block;font-weight:400;">×${c.cpp} cpp估值</span>` : '';
+            const cppNote = hasCpp ? `<span style="font-size:0.65rem;color:var(--muted);display:block;font-weight:400;">${t('cppNote', c.cpp)}</span>` : '';
             return `<th class="card-col">${c.issuer}<br/>${c.name}${cppNote}</th>`;
           }).join('')}
         </tr>
@@ -1100,6 +1192,7 @@
       <tbody>`;
 
     CATEGORIES.forEach(cat => {
+      const catLabel = cat[pageLang] || cat.zh;
       const effRates = selected.map(c => getEffectiveRate(c, cat.id));
       const maxRate = Math.max(...effRates);
 
@@ -1107,7 +1200,7 @@
         <td>
           <div class="cat-cell">
             <span class="cat-icon">${cat.icon}</span>
-            <span>${cat.label}</span>
+            <span>${catLabel}</span>
           </div>
         </td>`;
 
@@ -1119,15 +1212,16 @@
         const cls = isBest ? 'best' : isGreat ? 'great' : '';
         const hasCpp = c.cpp && c.cpp !== 1.0;
         const displayVal = hasCpp ? formatRate(effRate) : rawRate;
-        const rawLabel = hasCpp ? `<span class="points-label">${rawRate}x 原始</span>` : '';
-        const note = c.rateNotes && c.rateNotes[cat.id];
-        const noteHtml = note ? `<span class="rate-note">⚠<span class="tip">${note}</span></span>` : '';
+        const rawLabel = hasCpp ? `<span class="points-label">${t('rawLabel', rawRate)}</span>` : '';
+        const noteObj = c.rateNotes && c.rateNotes[cat.id];
+        const noteText = noteObj ? (typeof noteObj === 'object' ? (noteObj[pageLang] || noteObj.zh) : noteObj) : null;
+        const noteHtml = noteText ? `<span class="rate-note">⚠<span class="tip">${noteText}</span></span>` : '';
         html += `<td>
           <div>
             <span class="multiplier ${cls}">${displayVal}x</span>${noteHtml}
             ${rawLabel}
             <span class="points-label">${c.points}</span>
-            ${isBest && selected.length > 1 ? '<span class="best-badge">最优</span>' : ''}
+            ${isBest && selected.length > 1 ? `<span class="best-badge">${t('bestBadge')}</span>` : ''}
           </div>
         </td>`;
       });
@@ -1146,11 +1240,75 @@
     overseasMode = !overseasMode;
     const btn = document.getElementById('overseas-btn');
     const status = document.getElementById('overseas-status');
-    status.textContent = overseasMode ? '开' : '关';
-    btn.style.borderColor = overseasMode ? 'var(--accent)' : '';
-    btn.style.color = overseasMode ? 'var(--accent)' : '';
+    if (status) status.textContent = overseasMode ? t('overseasOn') : t('overseasOff');
+    if (btn) {
+      btn.style.borderColor = overseasMode ? 'var(--accent)' : '';
+      btn.style.color = overseasMode ? 'var(--accent)' : '';
+    }
     renderCompareTable();
   };
+
+  // ============================================================
+  // LANG
+  // ============================================================
+  window.setPageLang = (lang) => {
+    pageLang = lang;
+    localStorage.setItem('ph-lang', lang);
+    document.getElementById('page-btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('page-btn-zh').classList.toggle('active', lang === 'zh');
+    applyStaticStrings();
+    renderCardGrid();
+    renderCompareTable();
+  };
+
+  function applyStaticStrings() {
+    // Page header
+    const h1 = document.querySelector('#app-section h1');
+    if (h1) h1.textContent = t('pageTitle');
+    const sub = document.getElementById('page-sub');
+    if (sub) sub.textContent = t('pageSub');
+    // Tabs
+    const tabs = document.querySelectorAll('.tab');
+    if (tabs[0]) tabs[0].textContent = t('tabSelect');
+    if (tabs[1]) tabs[1].textContent = t('tabCompare');
+    // Clear btn
+    const clearBtn = document.querySelector('[onclick="clearAll()"]');
+    if (clearBtn) clearBtn.textContent = t('clearAll');
+    // Compare btn
+    const cmpBtn = document.getElementById('compare-btn');
+    if (cmpBtn) cmpBtn.textContent = t('goCompare');
+    // Notice
+    const notice = document.querySelector('.notice');
+    if (notice) notice.textContent = t('notice');
+    // Overseas
+    const oStatus = document.getElementById('overseas-status');
+    if (oStatus) oStatus.textContent = overseasMode ? t('overseasOn') : t('overseasOff');
+    const oLabel = document.getElementById('overseas-label');
+    if (oLabel) oLabel.textContent = t('overseasLabel');
+    const oHint = document.getElementById('overseas-hint');
+    if (oHint) oHint.textContent = t('overseasHint');
+    // Selected count
+    const selCount = document.getElementById('sel-count');
+    if (selCount) {
+      const countEl = document.querySelector('.selected-count');
+      if (countEl) countEl.innerHTML = t('selectedCount', selectedCards.size);
+    }
+    // Footer
+    const footer = document.querySelector('footer');
+    if (footer) footer.textContent = t('footer');
+    // Gate
+    const gateH2 = document.querySelector('.gate h2');
+    if (gateH2) gateH2.textContent = t('gateTitle');
+    const gateP = document.querySelector('.gate p');
+    if (gateP) gateP.textContent = t('gateDesc');
+    const signInBtn = document.querySelector('.gate .btn-primary');
+    if (signInBtn) {
+      const gIcon = signInBtn.querySelector('.google-icon');
+      signInBtn.textContent = '';
+      if (gIcon) signInBtn.appendChild(gIcon);
+      signInBtn.appendChild(document.createTextNode(' ' + t('signIn')));
+    }
+  }
 
   // ============================================================
   // TABS
@@ -1162,7 +1320,12 @@
     document.getElementById('tab-select').classList.toggle('hidden', tab !== 'select');
     document.getElementById('tab-compare').classList.toggle('hidden', tab !== 'compare');
     if (tab === 'compare') renderCompareTable();
+    applyStaticStrings();
   };
+
+  // Init lang buttons
+  document.getElementById('page-btn-en').classList.toggle('active', pageLang === 'en');
+  document.getElementById('page-btn-zh').classList.toggle('active', pageLang === 'zh');
 </script>
 
 </body>
