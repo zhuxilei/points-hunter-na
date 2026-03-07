@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的卡包 · Points Hunter NA</title>
+  <meta name="description" content="选择你持有的信用卡，一键生成专属消费攒点对比表。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a24;
+      --surface2: #22222f;
+      --border: #2e2e3e;
+      --accent: #7c6ef7;
+      --accent2: #f7c26e;
+      --green: #4ade80;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --tag-bg: #2a2a3a;
+      --danger: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      background: rgba(15,15,19,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    /* AUTH BTN */
+    .btn {
+      padding: 8px 20px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #6a5de0; }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-sm { padding: 5px 14px; font-size: 0.78rem; }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--border); }
+    .btn-danger:hover { border-color: var(--danger); }
+
+    /* USER AVATAR */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #fff;
+      overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* HERO / GATE */
+    .gate {
+      max-width: 480px;
+      margin: 6rem auto;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+    .gate-icon { font-size: 3.5rem; margin-bottom: 1.2rem; }
+    .gate h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 0.8rem; }
+    .gate p { color: var(--muted); margin-bottom: 2rem; line-height: 1.7; }
+    .gate .btn { margin: 0 auto; justify-content: center; width: fit-content; }
+    .google-icon {
+      width: 18px; height: 18px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #333;
+      font-weight: 700;
+    }
+
+    /* MAIN LAYOUT */
+    .page { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .page-header h1 { font-size: 1.5rem; font-weight: 700; }
+    .page-header p { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .tab {
+      padding: 10px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.18s;
+    }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    /* CARD SELECTOR */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .cc-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      position: relative;
+      user-select: none;
+    }
+    .cc-card:hover { border-color: var(--accent); }
+    .cc-card.selected {
+      border-color: var(--accent);
+      background: rgba(124,110,247,0.08);
+    }
+    .cc-card .check {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: all 0.18s;
+    }
+    .cc-card.selected .check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .cc-issuer {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .cc-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+    .cc-points {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+    .cc-bonus-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: var(--tag-bg);
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+    .cc-annual {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* COMPARISON TABLE */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    thead {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    th.card-col {
+      color: var(--text);
+      font-size: 0.85rem;
+      min-width: 140px;
+    }
+    th.cat-col { min-width: 150px; }
+    td {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .cat-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+    .cat-icon { font-size: 1.1rem; }
+    .multiplier {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 56px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      background: var(--tag-bg);
+      color: var(--muted);
+    }
+    .multiplier.best {
+      background: rgba(124,110,247,0.2);
+      color: var(--accent);
+      border: 1px solid rgba(124,110,247,0.4);
+    }
+    .multiplier.great {
+      background: rgba(74,222,128,0.12);
+      color: var(--green);
+      border: 1px solid rgba(74,222,128,0.25);
+    }
+    .points-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--muted);
+      display: block;
+      text-align: center;
+    }
+    .best-badge {
+      font-size: 0.65rem;
+      background: var(--accent);
+      color: white;
+      padding: 1px 6px;
+      border-radius: 99px;
+      font-weight: 700;
+      display: block;
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    /* EMPTY STATE */
+    .empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty h3 { font-size: 1.1rem; color: var(--text); margin-bottom: 0.5rem; }
+
+    /* LEGEND */
+    .legend {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .legend-dot {
+      width: 28px;
+      height: 20px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* NOTICE */
+    .notice {
+      background: rgba(247,194,110,0.08);
+      border: 1px solid rgba(247,194,110,0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 8px;
+    }
+
+    /* SELECTED COUNT */
+    .selected-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .selected-count {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .selected-count strong { color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* LOGIN SECTION */
+    #login-section, #app-section { }
+    .hidden { display: none !important; }
+
+    @media (max-width: 640px) {
+      .page { padding: 1.5rem 1rem 4rem; }
+      .page-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">✈️ Points Hunter <span>NA</span></a>
+  <div class="nav-right" id="nav-right">
+    <!-- filled by JS -->
+  </div>
+</nav>
+
+<!-- LOGIN GATE -->
+<div id="login-section">
+  <div class="gate">
+    <div class="gate-icon">💳</div>
+    <h2>我的卡包</h2>
+    <p>登录后选择你持有的信用卡，自动生成专属消费攒点对比表 —— 一眼看出每笔消费该刷哪张。</p>
+    <button class="btn btn-primary" onclick="signInWithGoogle()" style="font-size:0.95rem; padding:12px 28px;">
+      <div class="google-icon">G</div>
+      用 Google 账号登录
+    </button>
+    <p style="margin-top:1.2rem; font-size:0.78rem; color:var(--muted);">登录即表示同意我们存储你的卡片选择（仅此而已，无广告追踪）</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app-section" class="hidden">
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <h1>我的卡包 💳</h1>
+        <p id="page-sub">选择你持有的卡，查看专属攒点对比</p>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('select')">选择持卡</div>
+      <div class="tab" onclick="switchTab('compare')">消费对比表</div>
+    </div>
+
+    <!-- TAB: SELECT -->
+    <div id="tab-select">
+      <div class="selected-info">
+        <div class="selected-count">已选 <strong id="sel-count">0</strong> 张 · 最多选 8 张</div>
+        <button class="btn btn-outline btn-sm" onclick="clearAll()">清空选择</button>
+      </div>
+      <div class="card-grid" id="card-grid">
+        <!-- filled by JS -->
+      </div>
+      <div style="text-align:center; margin-top:1rem;">
+        <button class="btn btn-primary" onclick="switchTab('compare')" id="compare-btn">
+          查看对比表 →
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB: COMPARE -->
+    <div id="tab-compare" class="hidden">
+      <div class="notice">
+        ⚡ 紫色 = 最高倍率 &nbsp;|&nbsp; 绿色 = 不错选择 &nbsp;|&nbsp; 灰色 = 基础倍率。数据仅供参考，以官网为准。
+      </div>
+      <div id="compare-content">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 积分猎人在北美 · 数据仅供参考，请以各银行官网为准
+</footer>
+
+<!-- ============================================================
+  FIREBASE CONFIG — 需要替换成你自己的 Firebase 项目配置
+  1. 去 https://console.firebase.google.com 创建项目
+  2. 启用 Authentication → Google
+  3. 启用 Firestore Database
+  4. 把下方 firebaseConfig 替换成你的配置
+============================================================ -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+    from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+  import { getFirestore, doc, getDoc, setDoc }
+    from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCgo7F2CkaC-KNf67oQNtGIVR5VavYTh6w",
+    authDomain: "travelhunterna.firebaseapp.com",
+    projectId: "travelhunterna",
+    storageBucket: "travelhunterna.firebasestorage.app",
+    messagingSenderId: "377459787819",
+    appId: "1:377459787819:web:8f769798c2e837d8cc026e",
+    measurementId: "G-DCYCTW64D6"
+  };
+
+  // ============================================================
+  // 信用卡数据库
+  // ============================================================
+  const CARDS = [
+    {
+      id: 'csr',
+      issuer: 'Chase',
+      name: 'Sapphire Reserve',
+      points: 'Chase UR',
+      annual: '$550/年',
+      color: '#1a1a3a',
+      rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'csp',
+      issuer: 'Chase',
+      name: 'Sapphire Preferred',
+      points: 'Chase UR',
+      annual: '$95/年',
+      color: '#1a1a3a',
+      rates: { dining: 3, grocery: 1, travel: 2, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'cfu',
+      issuer: 'Chase',
+      name: 'Freedom Unlimited',
+      points: 'Chase UR',
+      annual: '$0/年',
+      color: '#1a1a3a',
+      rates: { dining: 3, grocery: 1.5, travel: 5, flights: 5, hotels: 5, gas: 1.5, streaming: 1.5, rideshare: 1.5, amazon: 1.5, other: 1.5 }
+    },
+    {
+      id: 'cff',
+      issuer: 'Chase',
+      name: 'Freedom Flex',
+      points: 'Chase UR',
+      annual: '$0/年',
+      color: '#1a1a3a',
+      rates: { dining: 3, grocery: 5, travel: 5, flights: 5, hotels: 5, gas: 1, streaming: 1, rideshare: 1, amazon: 5, other: 1 }
+    },
+    {
+      id: 'amex-gold',
+      issuer: 'Amex',
+      name: 'Gold Card',
+      points: 'Amex MR',
+      annual: '$250/年',
+      color: '#2a1f0a',
+      rates: { dining: 4, grocery: 4, travel: 1, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'amex-plat',
+      issuer: 'Amex',
+      name: 'Platinum Card',
+      points: 'Amex MR',
+      annual: '$695/年',
+      color: '#2a1f0a',
+      rates: { dining: 1, grocery: 1, travel: 1, flights: 5, hotels: 5, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'citi-premier',
+      issuer: 'Citi',
+      name: 'Strata Premier',
+      points: 'Citi TYP',
+      annual: '$95/年',
+      color: '#0a1a2a',
+      rates: { dining: 3, grocery: 3, travel: 3, flights: 3, hotels: 3, gas: 3, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'venture-x',
+      issuer: 'Capital One',
+      name: 'Venture X',
+      points: 'C1 Miles',
+      annual: '$395/年',
+      color: '#0a200a',
+      rates: { dining: 2, grocery: 2, travel: 2, flights: 5, hotels: 10, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
+    },
+    {
+      id: 'bilt',
+      issuer: 'Bilt',
+      name: 'Bilt Mastercard',
+      points: 'Bilt Points',
+      annual: '$0/年',
+      color: '#1a1020',
+      rates: { dining: 3, grocery: 2, travel: 2, flights: 2, hotels: 2, gas: 1, streaming: 1, rideshare: 3, amazon: 1, other: 1 }
+    },
+    {
+      id: 'boa-premium',
+      issuer: 'Bank of America',
+      name: 'Premium Rewards',
+      points: 'BoA Points',
+      annual: '$95/年',
+      color: '#1a0a0a',
+      rates: { dining: 2, grocery: 2, travel: 2, flights: 2, hotels: 2, gas: 1.5, streaming: 1.5, rideshare: 1.5, amazon: 1.5, other: 1.5 }
+    },
+    {
+      id: 'wells-autograph',
+      issuer: 'Wells Fargo',
+      name: 'Autograph',
+      points: 'WF Rewards',
+      annual: '$0/年',
+      color: '#1a0a00',
+      rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 3, gas: 3, streaming: 3, rideshare: 3, amazon: 1, other: 1 }
+    },
+    {
+      id: 'usbank-altitude',
+      issuer: 'US Bank',
+      name: 'Altitude Reserve',
+      points: 'US Bank Pts',
+      annual: '$400/年',
+      color: '#001a1a',
+      rates: { dining: 1, grocery: 1, travel: 3, flights: 3, hotels: 3, gas: 1, streaming: 1, rideshare: 3, amazon: 1, other: 1 }
+    },
+  ];
+
+  const CATEGORIES = [
+    { id: 'dining',     label: '餐饮', icon: '🍽️' },
+    { id: 'grocery',    label: '超市', icon: '🛒' },
+    { id: 'flights',    label: '机票', icon: '✈️' },
+    { id: 'hotels',     label: '酒店', icon: '🏨' },
+    { id: 'travel',     label: '通用旅行', icon: '🗺️' },
+    { id: 'gas',        label: '加油', icon: '⛽' },
+    { id: 'rideshare',  label: '打车 (Uber/Lyft)', icon: '🚗' },
+    { id: 'streaming',  label: '流媒体订阅', icon: '📺' },
+    { id: 'amazon',     label: 'Amazon', icon: '📦' },
+    { id: 'other',      label: '其他消费', icon: '💳' },
+  ];
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  let selectedCards = new Set();
+  let currentUser = null;
+  let db, auth;
+
+  // ============================================================
+  // FIREBASE INIT
+  // ============================================================
+  let firebaseReady = false;
+  try {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    firebaseReady = true;
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        showApp(user);
+        await loadUserCards(user.uid);
+      } else {
+        currentUser = null;
+        showLogin();
+      }
+    });
+  } catch(e) {
+    console.warn('Firebase init failed — running in demo mode', e);
+    // Demo mode: show app without login
+    showDemoMode();
+  }
+
+  // ============================================================
+  // AUTH
+  // ============================================================
+  window.signInWithGoogle = async () => {
+    if (!firebaseReady) { showDemoMode(); return; }
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch(e) {
+      console.error(e);
+      alert('登录失败，请检查 Firebase 配置或网络连接');
+    }
+  };
+
+  window.signOutUser = async () => {
+    if (auth) await signOut(auth);
+    showLogin();
+  };
+
+  // ============================================================
+  // FIRESTORE: load & save
+  // ============================================================
+  async function loadUserCards(uid) {
+    if (!db) return;
+    try {
+      const snap = await getDoc(doc(db, 'users', uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        selectedCards = new Set(data.cards || []);
+      }
+    } catch(e) { console.warn('load failed', e); }
+    renderCardGrid();
+    renderCompareTable();
+  }
+
+  async function saveUserCards(uid) {
+    if (!db || !uid) return;
+    try {
+      await setDoc(doc(db, 'users', uid), { cards: [...selectedCards] }, { merge: true });
+    } catch(e) { console.warn('save failed', e); }
+  }
+
+  // ============================================================
+  // UI: show/hide sections
+  // ============================================================
+  function showLogin() {
+    document.getElementById('login-section').classList.remove('hidden');
+    document.getElementById('app-section').classList.add('hidden');
+    document.getElementById('nav-right').innerHTML = `
+      <button class="btn btn-primary btn-sm" onclick="signInWithGoogle()">
+        <div class="google-icon" style="width:14px;height:14px;font-size:10px;">G</div> 登录
+      </button>`;
+  }
+
+  function showApp(user) {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('app-section').classList.remove('hidden');
+    const initial = (user.displayName || user.email || '?')[0].toUpperCase();
+    const avatarHtml = user.photoURL
+      ? `<img src="${user.photoURL}" />`
+      : initial;
+    document.getElementById('nav-right').innerHTML = `
+      <div class="user-info">
+        <div class="avatar">${avatarHtml}</div>
+        <span>${user.displayName || user.email}</span>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="signOutUser()">退出</button>`;
+    document.getElementById('page-sub').textContent =
+      `${user.displayName || ''} · 你的专属攒点对比`;
+    renderCardGrid();
+    renderCompareTable();
+  }
+
+  function showDemoMode() {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('app-section').classList.remove('hidden');
+    document.getElementById('nav-right').innerHTML = `<span style="font-size:0.8rem;color:var(--muted)">演示模式（未连接 Firebase）</span>`;
+    document.getElementById('page-sub').textContent = '选择持卡，查看攒点对比（演示模式，数据不保存）';
+    renderCardGrid();
+    renderCompareTable();
+  }
+
+  // ============================================================
+  // RENDER: card selector
+  // ============================================================
+  function renderCardGrid() {
+    const grid = document.getElementById('card-grid');
+    grid.innerHTML = CARDS.map(c => {
+      const sel = selectedCards.has(c.id);
+      return `
+        <div class="cc-card ${sel ? 'selected' : ''}" onclick="toggleCard('${c.id}')">
+          <div class="check">${sel ? '✓' : ''}</div>
+          <div class="cc-issuer">${c.issuer}</div>
+          <div class="cc-name">${c.name}</div>
+          <div class="cc-points">
+            <span>✦ ${c.points}</span>
+            <span class="cc-bonus-label">${c.annual}</span>
+          </div>
+        </div>`;
+    }).join('');
+    document.getElementById('sel-count').textContent = selectedCards.size;
+  }
+
+  window.toggleCard = async (id) => {
+    if (selectedCards.has(id)) {
+      selectedCards.delete(id);
+    } else {
+      if (selectedCards.size >= 8) {
+        alert('最多选 8 张卡哦～');
+        return;
+      }
+      selectedCards.add(id);
+    }
+    renderCardGrid();
+    renderCompareTable();
+    if (currentUser) await saveUserCards(currentUser.uid);
+  };
+
+  window.clearAll = async () => {
+    selectedCards.clear();
+    renderCardGrid();
+    renderCompareTable();
+    if (currentUser) await saveUserCards(currentUser.uid);
+  };
+
+  // ============================================================
+  // RENDER: comparison table
+  // ============================================================
+  function renderCompareTable() {
+    const wrap = document.getElementById('compare-content');
+    const selected = CARDS.filter(c => selectedCards.has(c.id));
+
+    if (selected.length === 0) {
+      wrap.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">💳</div>
+          <h3>还没选卡呢</h3>
+          <p style="margin-top:6px;">先去「选择持卡」选一下你有哪些卡</p>
+        </div>`;
+      return;
+    }
+
+    // Build table
+    let html = `<div class="table-wrap"><table>
+      <thead>
+        <tr>
+          <th class="cat-col">消费类别</th>
+          ${selected.map(c => `<th class="card-col">${c.issuer}<br/>${c.name}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>`;
+
+    CATEGORIES.forEach(cat => {
+      // find max rate for this category
+      const rates = selected.map(c => c.rates[cat.id] || 1);
+      const maxRate = Math.max(...rates);
+
+      html += `<tr>
+        <td>
+          <div class="cat-cell">
+            <span class="cat-icon">${cat.icon}</span>
+            <span>${cat.label}</span>
+          </div>
+        </td>`;
+
+      selected.forEach((c, i) => {
+        const rate = c.rates[cat.id] || 1;
+        const isBest = rate === maxRate && rate > 1;
+        const isGreat = rate >= maxRate * 0.75 && rate > 1 && rate < maxRate;
+        const cls = isBest ? 'best' : isGreat ? 'great' : '';
+        html += `<td>
+          <div>
+            <span class="multiplier ${cls}">${rate}x</span>
+            <span class="points-label">${c.points}</span>
+            ${isBest && selected.length > 1 ? '<span class="best-badge">最优</span>' : ''}
+          </div>
+        </td>`;
+      });
+
+      html += `</tr>`;
+    });
+
+    html += `</tbody></table></div>`;
+    wrap.innerHTML = html;
+  }
+
+  // ============================================================
+  // TABS
+  // ============================================================
+  window.switchTab = (tab) => {
+    document.querySelectorAll('.tab').forEach((el, i) => {
+      el.classList.toggle('active', (i === 0 && tab === 'select') || (i === 1 && tab === 'compare'));
+    });
+    document.getElementById('tab-select').classList.toggle('hidden', tab !== 'select');
+    document.getElementById('tab-compare').classList.toggle('hidden', tab !== 'compare');
+    if (tab === 'compare') renderCompareTable();
+  };
+</script>
+
+</body>
+</html>
