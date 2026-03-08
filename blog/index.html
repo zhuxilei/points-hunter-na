@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Points Hunter in North America</title>
+  <meta name="description" content="Daily insights on credit card points, airline miles, hotel rewards, and travel deals — from a Chinese expat in North America." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a24;
+      --surface2: #22222f;
+      --border: #2e2e3e;
+      --accent: #7c6ef7;
+      --accent2: #f7c26e;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --tag-bg: #2a2a3a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      background: rgba(15,15,19,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-brand span { color: var(--accent); }
+
+    /* LANG TOGGLE */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 3px;
+    }
+    .lang-btn {
+      padding: 4px 16px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.18s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 5rem 1.5rem 3rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 99px;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* GRID */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 5rem;
+    }
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 32px rgba(124,110,247,0.12);
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card-date { font-size: 0.78rem; color: var(--muted); }
+    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: var(--tag-bg);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+    }
+    .tag.gold { color: var(--accent2); }
+    .card h2 { font-size: 1.05rem; font-weight: 600; line-height: 1.4; }
+    .card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; flex: 1; }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .read-more { color: var(--accent); font-weight: 600; font-size: 0.82rem; }
+    .card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      gap: 2rem;
+      align-items: flex-start;
+      background: linear-gradient(135deg, #1e1b3a 0%, var(--surface) 100%);
+    }
+    .card.featured .card-body { flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
+    .card.featured .card-icon { font-size: 3.5rem; line-height: 1; flex-shrink: 0; }
+    .card.featured h2 { font-size: 1.4rem; }
+    @media (max-width: 600px) { .card.featured { flex-direction: column; } }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .lang-hidden { display: none !important; }
+
+    /* TOOL BANNER */
+    .tool-banner {
+      max-width: 1100px;
+      margin: 0 auto 0;
+      padding: 0 1.5rem;
+    }
+    .tool-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      background: linear-gradient(135deg, #1e1b3a 0%, #1a1a24 100%);
+      border: 1px solid rgba(124,110,247,0.35);
+      border-radius: 16px;
+      padding: 1.4rem 1.8rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.18s;
+      flex-wrap: wrap;
+    }
+    .tool-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 32px rgba(124,110,247,0.15);
+      transform: translateY(-2px);
+    }
+    .tool-card-left { display: flex; align-items: center; gap: 1rem; }
+    .tool-icon { font-size: 2.2rem; flex-shrink: 0; }
+    .tool-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+    .tool-title { font-size: 1.05rem; font-weight: 700; }
+    .tool-desc { font-size: 0.83rem; color: var(--muted); margin-top: 2px; }
+    .tool-cta {
+      background: var(--accent);
+      color: white;
+      padding: 9px 22px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    @media (max-width: 600px) {
+      .tool-card { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">✈️ Points Hunter <span>NA</span></a>
+  <div class="lang-toggle">
+    <div class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</div>
+    <div class="lang-btn" id="btn-zh" onclick="setLang('zh')">中文</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge lang-hidden" data-lang="zh">每日积分干货</div>
+  <div class="hero-badge" data-lang="en">Daily Deals &amp; Insights</div>
+
+  <h1 data-lang="en">Turn Everyday Spend Into<br/><em>Free Travel</em></h1>
+  <h1 class="lang-hidden" data-lang="zh">用积分飞商务舱<br/><em>从北美出发</em></h1>
+
+  <p data-lang="en">Daily roundups on credit card bonuses, airline miles transfers, hotel points, and mistake fares — curated from North America.</p>
+  <p class="lang-hidden" data-lang="zh">信用卡开卡奖励 · 里程转换Bonus · 酒店积分 · Bug票<br/>每天帮你盯着，不错过任何好Deal。</p>
+</section>
+
+<div class="tool-banner">
+  <a href="card-optimizer.html" class="tool-card">
+    <div class="tool-card-left">
+      <div class="tool-icon">💳</div>
+      <div>
+        <div class="tool-label" data-lang="en">Free Tool</div>
+        <div class="tool-label lang-hidden" data-lang="zh">免费工具</div>
+        <div class="tool-title" data-lang="en">Card Optimizer — What's the best card to swipe?</div>
+        <div class="tool-title lang-hidden" data-lang="zh">刷卡神器 — 每笔消费该刷哪张？</div>
+        <div class="tool-desc" data-lang="en">Pick your cards, get a personalized earn-rate table across 10 spend categories.</div>
+        <div class="tool-desc lang-hidden" data-lang="zh">选好你的卡，自动生成各类消费的攒点倍率对比表。登录后永久保存。</div>
+      </div>
+    </div>
+    <div class="tool-cta" data-lang="en">Try it free →</div>
+    <div class="tool-cta lang-hidden" data-lang="zh">免费试用 →</div>
+  </a>
+</div>
+
+<div class="container">
+  <p class="section-title" data-lang="en">Latest Posts</p>
+  <p class="section-title lang-hidden" data-lang="zh">最新文章</p>
+
+<div class="container">
+  <div class="grid" id="post-grid"></div>
+</div>
+
+<footer>
+  <span data-lang="en">© 2026 Points Hunter NA · Not affiliated with any bank or airline · Always verify offers before applying.</span>
+  <span class="lang-hidden" data-lang="zh">© 2026 积分猎人在北美 · 与任何银行或航司无关 · 申请前请以官网为准</span>
+</footer>
+
+<script>
+  const posts = [
+    {
+      slug: "posts/2026-03-07-daily-digest.html",
+      date: { en: "Mar 7, 2026", zh: "2026年3月7日" },
+      tags: { en: ["Daily Digest", "Buy Miles"], zh: ["每日速递", "买里程"] },
+      featured: true,
+      icon: "✈️",
+      title: {
+        en: "Alaska Buy Miles +90% · Emirates Quietly Cut Rates · Bypass Robinhood Waitlist",
+        zh: "Alaska买里程+90% · Emirates悄悄降价 · Robinhood绕过名单"
+      },
+      excerpt: {
+        en: "Alaska buy-miles sale ends March 18 (+90% bonus, ~1.2–1.5 cpp). Emirates Skywards quietly improved partner award rates for 13 airlines. Robinhood Gold Card waitlist bypass via Credit Karma.",
+        zh: "Alaska买里程促销3月18日截止，+90% bonus约1.2–1.5cpp。Emirates Skywards悄悄下调13家合作航司兑换里程。Robinhood Gold Card可通过Credit Karma尝试绕过等待名单。"
+      },
+      readTime: "3 min read"
+    },
+    {
+      slug: "posts/2026-03-06-daily-digest.html",
+      date: { en: "Mar 6, 2026", zh: "2026年3月6日" },
+      tags: { en: ["Daily Digest", "Transfer Bonus"], zh: ["每日速递", "转分Bonus"] },
+      featured: false,
+      icon: "🎯",
+      title: {
+        en: "5 Free Nights Ending Soon + March Transfer Bonuses",
+        zh: "5晚免费住宿即将截止 + 3月转分Bonus汇总"
+      },
+      excerpt: {
+        en: "Chase Marriott Boundless all-time high offer ends March 12: 5×50K free night certificates. Plus Chase UR → Avios +20%, Wyndham +30%, and all March transfer bonuses.",
+        zh: "Chase Marriott Boundless 史高开卡奖励3月12日截止！5张50K免费房晚。Chase UR转Avios +20%、Wyndham +30%，本月全部转分福利一览。"
+      },
+      readTime: "4 min read"
+    }
+  ];
+
+  let currentLang = localStorage.getItem('ph-lang') || 'en';
+
+  function renderPosts(lang) {
+    const grid = document.getElementById('post-grid');
+    grid.innerHTML = '';
+    posts.forEach(p => {
+      const featured = p.featured ? 'featured' : '';
+      const tagsHtml = p.tags[lang].map((t, i) => `<span class="tag${i===1?' gold':''}">${t}</span>`).join('');
+      const readMore = lang === 'zh' ? '阅读全文 →' : 'Read more →';
+      const inner = p.featured
+        ? `<div class="card-icon">${p.icon}</div>
+           <div class="card-body">
+             <div class="card-meta"><span class="card-date">${p.date[lang]}</span><div class="card-tags">${tagsHtml}</div></div>
+             <h2>${p.title[lang]}</h2>
+             <p>${p.excerpt[lang]}</p>
+             <div class="card-footer"><span>${p.readTime}</span><span class="read-more">${readMore}</span></div>
+           </div>`
+        : `<div class="card-meta"><span class="card-date">${p.date[lang]}</span><div class="card-tags">${tagsHtml}</div></div>
+           <h2>${p.title[lang]}</h2>
+           <p>${p.excerpt[lang]}</p>
+           <div class="card-footer"><span>${p.readTime}</span><span class="read-more">${readMore}</span></div>`;
+      grid.innerHTML += `<a href="${p.slug}?lang=${lang}" class="card ${featured}">${inner}</a>`;
+    });
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('ph-lang', lang);
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.classList.toggle('lang-hidden', el.dataset.lang !== lang);
+    });
+    renderPosts(lang);
+  }
+
+  setLang(currentLang);
+</script>
+</body>
+</html>

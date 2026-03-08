@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rove Miles新伙伴JAL · Capital One转酒店Bonus · IHG史高即将截止 | 积分猎人在北美</title>
+  <meta name="description" content="Rove Miles联手JAL，50%转分bonus到3/31；Capital One转Preferred Hotels加赠30%；IHG史高175K积分3月18日截止；Hyatt新酒店500积分/晚。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0f13; --surface: #1a1a24; --surface2: #22222f;
+      --border: #2e2e3e; --accent: #7c6ef7; --accent2: #f7c26e;
+      --text: #e8e8f0; --muted: #888899; --tag-bg: #2a2a3a;
+      --red: #f76e6e; --green: #6ef7a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    nav {
+      border-bottom: 1px solid var(--border); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px; position: sticky; top: 0;
+      background: rgba(15,15,19,0.92); backdrop-filter: blur(12px); z-index: 100;
+    }
+    .nav-brand { font-weight: 700; font-size: 1rem; color: var(--text); text-decoration: none; }
+    .nav-brand span { color: var(--accent); }
+    .lang-toggle {
+      display: flex; align-items: center; gap: 2px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 99px; padding: 3px;
+    }
+    .lang-btn { padding: 4px 14px; border-radius: 99px; font-size: 0.78rem; font-weight: 600; color: var(--muted); transition: all 0.18s; cursor: pointer; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .article-wrap { max-width: 740px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.85rem; text-decoration: none; margin-bottom: 2rem; transition: color 0.15s; }
+    .back-link:hover { color: var(--text); }
+    .article-badge { display: inline-flex; align-items: center; background: var(--tag-bg); border: 1px solid var(--border); color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 14px; border-radius: 99px; margin-bottom: 1rem; }
+    .article-header { margin-bottom: 2.5rem; }
+    .article-header h1 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; line-height: 1.3; margin-bottom: 1rem; }
+    .article-meta { display: flex; align-items: center; gap: 1rem; color: var(--muted); font-size: 0.82rem; flex-wrap: wrap; }
+
+    .alert { border-radius: 14px; padding: 1.2rem 1.4rem; margin: 1.5rem 0; border: 1px solid; display: flex; gap: 12px; align-items: flex-start; }
+    .alert.urgent { background: rgba(247,110,110,0.08); border-color: rgba(247,110,110,0.3); }
+    .alert.info { background: rgba(124,110,247,0.07); border-color: rgba(124,110,247,0.25); }
+    .alert-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .alert-body strong { display: block; margin-bottom: 4px; font-size: 0.9rem; }
+    .alert.urgent .alert-body strong { color: var(--red); }
+    .alert.info .alert-body strong { color: var(--accent); }
+    .alert-body p { color: var(--text); font-size: 0.9rem; margin: 0; }
+
+    .section { margin: 2.5rem 0; }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem; }
+    .section-icon { font-size: 1.2rem; }
+    .section h2 { font-size: 1.1rem; font-weight: 700; }
+
+    .highlight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem; margin-bottom: 1rem; }
+    .highlight-card.hot { background: linear-gradient(135deg, #1e1b3a 0%, var(--surface) 100%); border-color: rgba(124,110,247,0.5); }
+    .highlight-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .highlight-card p { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .highlight-card p:last-child { margin-bottom: 0; }
+    .highlight-card .text-bright { color: var(--text); }
+
+    .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.8rem; }
+    .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 600; background: var(--tag-bg); border: 1px solid var(--border); padding: 4px 12px; border-radius: 99px; color: var(--text); }
+    .pill .val { color: var(--green); }
+    .pill .warn { color: var(--red); }
+    .pill .gold { color: var(--accent2); }
+
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+    .info-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; }
+    .info-item .label { font-size: 0.72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .info-item .value { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .info-item .sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    .tip-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 1.1rem 1.3rem; margin: 1.5rem 0; font-size: 0.88rem; }
+    .tip-box strong { color: var(--accent); }
+
+    footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; }
+    .lang-hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-brand">✈️ Points Hunter <span>NA</span></a>
+  <div class="lang-toggle">
+    <div class="lang-btn" id="btn-en" onclick="setLang('en')">EN</div>
+    <div class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+  <a href="../index.html" class="back-link">← <span data-lang="en" class="lang-hidden">Back to home</span><span data-lang="zh">返回首页</span></a>
+
+  <div class="article-header" data-lang="zh">
+    <div class="article-badge">📅 每日速递</div>
+    <h1>Rove Miles新伙伴JAL · Capital One转酒店Bonus · IHG史高即将截止</h1>
+    <div class="article-meta">
+      <span>2026年3月8日（周日）</span>
+      <span class="dot">·</span>
+      <span>3 分钟阅读</span>
+    </div>
+  </div>
+
+  <div class="article-header lang-hidden" data-lang="en">
+    <div class="article-badge">📅 Daily Digest</div>
+    <h1>Rove Miles x JAL · Capital One Hotel Transfer Bonus · IHG 175K Ending Soon</h1>
+    <div class="article-meta">
+      <span>March 8, 2026 (Sun)</span>
+      <span class="dot">·</span>
+      <span>3 min read</span>
+    </div>
+  </div>
+
+  <div class="alert urgent">
+    <div class="alert-icon">⏰</div>
+    <div class="alert-body">
+      <strong data-lang="zh">IHG史高开卡奖励 · 截止3月18日</strong>
+      <strong data-lang="en" class="lang-hidden">IHG Card All-Time High Offers · Ends March 18</strong>
+      <p data-lang="zh">IHG Traveler 120K / IHG Premier 175K 史高奖励仅剩10天，有刚需别错过。</p>
+      <p data-lang="en" class="lang-hidden">IHG Traveler 120K / Premier 175K — last 10 days to lock in.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🔥</span>
+      <h2 data-lang="zh">Rove Miles新伙伴：Japan Airlines 50%转分Bonus</h2>
+      <h2 data-lang="en" class="lang-hidden">Rove Miles x Japan Airlines: 50% Transfer Bonus</h2>
+    </div>
+
+    <div class="highlight-card hot">
+      <h3 data-lang="zh">新平台 + 新伙伴 + 新用户注册送500里程</h3>
+      <h3 data-lang="en" class="lang-hidden">New Platform + New Partner + 500 Miles for New Users</h3>
+      <p data-lang="zh">Rove Miles是这两年崛起的新兴里程平台，可以通过旅行预订和合作商家获取里程。本周最大的新闻是：日本航空JAL Mileage Bank成为Rove Miles的最新转分伙伴，而且开业就送50% Bonus！</p>
+      <p data-lang="en" class="lang-hidden">Rove Miles is an emerging platform that lets you earn miles through travel bookings and partners. This week they added JAL Mileage Bank as a new 1:1 transfer partner — with a 50% bonus to kick things off.</p>
+      <div class="pill-list">
+        <span class="pill">✨ 新伙伴 <span class="val">JAL Mileage Bank</span></span>
+        <span class="pill">🎁 50% Bonus <span class="val">到3/31</span></span>
+        <span class="pill">🆕 注册送 <span class="val">500 miles</span></span>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label" data-lang="zh">Rove Miles换JAL</div>
+        <div class="label lang-hidden" data-lang="en">Rove → JAL</div>
+        <div class="value">1 : 1.5</div>
+        <div class="sub" data-lang="zh">50% bonus后</div>
+        <div class="sub lang-hidden" data-lang="en">after 50% bonus</div>
+      </div>
+      <div class="info-item">
+        <div class="label" data-lang="zh">EK商务欧洲</div>
+        <div class="label lang-hidden" data-lang="en">EK Biz to Europe</div>
+        <div class="value">40,000</div>
+        <div class="sub" data-lang="zh">约37K Rove Miles</div>
+        <div class="sub lang-hidden" data-lang="en">~37K Rove Miles</div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <p data-lang="zh"><strong>亮点：</strong>JAL本身就是寰宇一家成员，兑换英航、卡塔尔、国泰等伙伴都很香。50% bonus相当于用Rove Miles买JAL里程，成本比直接买JAL里程低一截。适合有明确兑换目标的朋友。</p>
+      <p data-lang="en" class="lang-hidden"><strong>Why it matters:</strong> JAL is an Oneworld member — great for BA, QR, CX redemptions. The 50% bonus effectively lowers your cost per mile compared to buying JAL miles directly. Only worth it if you have a specific redemption in mind.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🏨</span>
+      <h2 data-lang="zh">Capital One转Preferred Hotels：30% Bonus</h2>
+      <h2 data-lang="en" class="lang-hidden">Capital One → Preferred Hotels: 30% Bonus</h2>
+    </div>
+
+    <div class="highlight-card">
+      <p data-lang="zh" class="text-bright">Capital One Miles转Preferred Hotels的I Prefer项目有30% Bonus！常规比例是1:2，bonus后变成1:2.6。</p>
+      <p data-lang="en" class="lang-hidden text-bright">Capital One miles → Preferred Hotels' I Prefer program gets a 30% bonus. Normally 1:2, now 1:2.6.</p>
+      <div class="pill-list">
+        <span class="pill">💳 常规比例 <span class="val">1 : 2</span></span>
+        <span class="pill">🎁 Bonus后 <span class="val">1 : 2.6</span></span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <p data-lang="zh"><strong>对比：</strong>Citi ThankYou Points转I Prefer是固定的1:4，常规情况下反而更划算。但如果有Capital One里程又正好想住精品酒店，这个30% Bonus是不错的用法。</p>
+      <p data-lang="en" class="lang-hidden"><strong>Compare:</strong> Citi TYP → I Prefer is a fixed 1:4, which is often better value. But if you have Capital One miles, this 30% bonus is a solid option.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">⏰</span>
+      <h2 data-lang="zh">IHG信用卡史高奖励：仅剩10天</h2>
+      <h2 data-lang="en" class="lang-hidden">IHG Card All-Time High: 10 Days Left</h2>
+    </div>
+
+    <div class="highlight-card">
+      <div class="pill-list">
+        <span class="pill">IHG Traveler <span class="val">120K 积分</span></span>
+        <span class="pill">IHG Premier <span class="val">175K 积分</span></span>
+        <span class="pill">⚠️ 截止 <span class="warn">3/18</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🏨</span>
+      <h2 data-lang="zh">Hyatt新酒店：每晚500积分bonus</h2>
+      <h2 data-lang="en" class="lang-hidden">Hyatt New Hotels: 500 Points Per Night</h2>
+    </div>
+
+    <div class="highlight-card">
+      <p data-lang="zh" class="text-bright">入住新开Hyatt酒店可获得每晚500额外积分。有效入住日期截止到6月30日。</p>
+      <p data-lang="en" class="lang-hidden text-bright">500 bonus points per night at newly-opened Hyatt hotels. Valid for stays with checkout through June 30, 2026.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span data-lang="zh">© 2026 积分猎人在北美 · 数据仅供参考，请以官网为准</span>
+  <span data-lang="en" class="lang-hidden">© 2026 Points Hunter NA · Always verify with the official source before acting</span>
+</footer>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  let lang = params.get('lang') || localStorage.getItem('ph-lang') || 'zh';
+  function setLang(l) {
+    lang = l;
+    localStorage.setItem('ph-lang', l);
+    document.getElementById('btn-en').classList.toggle('active', l === 'en');
+    document.getElementById('btn-zh').classList.toggle('active', l === 'zh');
+    document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.classList.toggle('lang-hidden', el.dataset.lang !== l);
+    });
+  }
+  setLang(lang);
+</script>
+</body>
+</html>

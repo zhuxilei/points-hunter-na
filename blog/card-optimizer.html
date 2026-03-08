@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的卡包 · Points Hunter NA</title>
+  <meta name="description" content="选择你持有的信用卡，一键生成专属消费攒点对比表。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a24;
+      --surface2: #22222f;
+      --border: #2e2e3e;
+      --accent: #7c6ef7;
+      --accent2: #f7c26e;
+      --green: #4ade80;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --tag-bg: #2a2a3a;
+      --danger: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      background: rgba(15,15,19,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    /* LANG TOGGLE */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 3px;
+    }
+    .lang-btn {
+      padding: 4px 16px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.18s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+
+    /* AUTH BTN */
+    .btn {
+      padding: 8px 20px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #6a5de0; }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-sm { padding: 5px 14px; font-size: 0.78rem; }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--border); }
+    .btn-danger:hover { border-color: var(--danger); }
+
+    /* USER AVATAR */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #fff;
+      overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* HERO / GATE */
+    .gate {
+      max-width: 480px;
+      margin: 6rem auto;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+    .gate-icon { font-size: 3.5rem; margin-bottom: 1.2rem; }
+    .gate h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 0.8rem; }
+    .gate p { color: var(--muted); margin-bottom: 2rem; line-height: 1.7; }
+    .gate .btn { margin: 0 auto; justify-content: center; width: fit-content; }
+    .google-icon {
+      width: 18px; height: 18px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #333;
+      font-weight: 700;
+    }
+
+    /* MAIN LAYOUT */
+    .page { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .page-header h1 { font-size: 1.5rem; font-weight: 700; }
+    .page-header p { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .tab {
+      padding: 10px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.18s;
+    }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    /* CARD SELECTOR */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .cc-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      position: relative;
+      user-select: none;
+    }
+    .cc-card:hover { border-color: var(--accent); }
+    .cc-card.selected {
+      border-color: var(--accent);
+      background: rgba(124,110,247,0.08);
+    }
+    .cc-card .check {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: all 0.18s;
+    }
+    .cc-card.selected .check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .cc-issuer {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .cc-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+    .cc-points {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+    .cc-bonus-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: var(--tag-bg);
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+    .cc-annual {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* COMPARISON TABLE */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    thead {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    th.card-col {
+      color: var(--text);
+      font-size: 0.85rem;
+      min-width: 140px;
+    }
+    th.cat-col { min-width: 150px; }
+    td {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .cat-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+    .cat-icon { font-size: 1.1rem; }
+    .multiplier {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 56px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      background: var(--tag-bg);
+      color: var(--muted);
+    }
+    .multiplier.best {
+      background: rgba(124,110,247,0.2);
+      color: var(--accent);
+      border: 1px solid rgba(124,110,247,0.4);
+    }
+    .multiplier.great {
+      background: rgba(74,222,128,0.12);
+      color: var(--green);
+      border: 1px solid rgba(74,222,128,0.25);
+    }
+    .points-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--muted);
+      display: block;
+      text-align: center;
+    }
+    .best-badge {
+      font-size: 0.65rem;
+      background: var(--accent);
+      color: white;
+      padding: 1px 6px;
+      border-radius: 99px;
+      font-weight: 700;
+      display: block;
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    /* TOOLTIP */
+    .rate-note {
+      display: inline-block;
+      margin-left: 3px;
+      font-size: 0.65rem;
+      color: var(--accent2);
+      cursor: default;
+      position: relative;
+      vertical-align: middle;
+    }
+    .rate-note .tip {
+      visibility: hidden;
+      opacity: 0;
+      background: #2a2a3f;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.75rem;
+      line-height: 1.5;
+      padding: 6px 10px;
+      border-radius: 8px;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 200;
+      transition: opacity 0.15s;
+      pointer-events: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .rate-note:hover .tip {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* EMPTY STATE */
+    .empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty h3 { font-size: 1.1rem; color: var(--text); margin-bottom: 0.5rem; }
+
+    /* LEGEND */
+    .legend {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .legend-dot {
+      width: 28px;
+      height: 20px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* NOTICE */
+    .notice {
+      background: rgba(247,194,110,0.08);
+      border: 1px solid rgba(247,194,110,0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 8px;
+    }
+
+    /* SELECTED COUNT */
+    .selected-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .selected-count {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .selected-count strong { color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* LOGIN SECTION */
+    #login-section, #app-section { }
+    .hidden { display: none !important; }
+
+    @media (max-width: 640px) {
+      .page { padding: 1.5rem 1rem 4rem; }
+      .page-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">✈️ Points Hunter <span>NA</span></a>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="lang-toggle">
+      <div class="lang-btn" id="page-btn-en" onclick="setPageLang('en')">EN</div>
+      <div class="lang-btn active" id="page-btn-zh" onclick="setPageLang('zh')">中文</div>
+    </div>
+    <div class="nav-right" id="nav-right">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</nav>
+
+<!-- LOGIN GATE -->
+<div id="login-section">
+  <div class="gate">
+    <div class="gate-icon">💳</div>
+    <h2>我的卡包</h2>
+    <p>登录后选择你持有的信用卡，自动生成专属消费攒点对比表 —— 一眼看出每笔消费该刷哪张。</p>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:center;margin-bottom:1.2rem;">
+      <button class="btn btn-primary" onclick="signInWithGoogle()" style="font-size:0.95rem; padding:12px 28px; min-width:220px;">
+        <div class="google-icon">G</div>
+        用 Google 账号登录
+      </button>
+      <div style="display:flex;align-items:center;gap:10px;width:220px;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:0.75rem;color:var(--muted);">或</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <button class="btn btn-outline" onclick="continueAsGuest()" style="font-size:0.9rem; padding:10px 28px; min-width:220px; color:var(--muted);">
+        👤 游客模式（不保存）
+      </button>
+    </div>
+    <p style="margin-top:0; font-size:0.78rem; color:var(--muted);">登录即表示同意我们存储你的卡片选择（仅此而已，无广告追踪）</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app-section" class="hidden">
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <h1>我的卡包 💳</h1>
+        <p id="page-sub">选择你持有的卡，查看专属攒点对比</p>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('select')">选择持卡</div>
+      <div class="tab" onclick="switchTab('compare')">消费对比表</div>
+    </div>
+
+    <!-- TAB: SELECT -->
+    <div id="tab-select">
+      <div class="selected-info">
+        <div class="selected-count">已选 <strong id="sel-count">0</strong> 张</div>
+        <button class="btn btn-outline btn-sm" onclick="clearAll()">清空选择</button>
+      </div>
+      <div class="card-grid" id="card-grid">
+        <!-- filled by JS -->
+      </div>
+      <div style="text-align:center; margin-top:1rem;">
+        <button class="btn btn-primary" onclick="switchTab('compare')" id="compare-btn">
+          查看对比表 →
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB: COMPARE -->
+    <div id="tab-compare" class="hidden">
+      <div class="notice">
+        ⚡ 紫色 = 最高等效倍率 &nbsp;|&nbsp; 绿色 = 不错选择 &nbsp;|&nbsp; 灰色 = 基础倍率。Marriott ×0.7、Hilton ×0.4 估值加权，数据仅供参考。
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.2rem; flex-wrap:wrap;">
+        <button class="btn btn-outline" id="overseas-btn" onclick="toggleOverseas()" style="display:flex;align-items:center;gap:8px;">
+          🌍 <span id="overseas-label"></span><strong id="overseas-status"></strong>
+        </button>
+        <span id="overseas-hint" style="font-size:0.8rem;color:var(--muted);"></span>
+      </div>
+      <div id="compare-content">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 积分猎人在北美 · 数据仅供参考，请以各银行官网为准
+</footer>
+
+<!-- ============================================================
+  FIREBASE CONFIG — 需要替换成你自己的 Firebase 项目配置
+  1. 去 https://console.firebase.google.com 创建项目
+  2. 启用 Authentication → Google
+  3. 启用 Firestore Database
+  4. 把下方 firebaseConfig 替换成你的配置
+============================================================ -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+  import { getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+    from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+  import { getFirestore, doc, getDoc, setDoc }
+    from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCgo7F2CkaC-KNf67oQNtGIVR5VavYTh6w",
+    authDomain: "travelhunterna.firebaseapp.com",
+    projectId: "travelhunterna",
+    storageBucket: "travelhunterna.firebasestorage.app",
+    messagingSenderId: "377459787819",
+    appId: "1:377459787819:web:8f769798c2e837d8cc026e",
+    measurementId: "G-DCYCTW64D6"
+  };
+
+  // ============================================================
+  // 信用卡数据库
+  // ============================================================
+  const CARDS = [
+    {
+      id: 'csr',
+      issuer: 'Chase',
+      name: 'Sapphire Reserve',
+      points: 'Chase UR',
+      annual: '$550/年',
+      color: '#1a1a3a',
+      rateNotes: { travel: {zh:{zh:'需通过 Chase Travel 享受最高倍率', en:'需通过 Chase Travel 享受最高倍率'}, en:'Must book via Chase Travel for top rate'}, flights: {zh:{zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, en:'Must book via Chase Travel'}, hotels: {zh:{zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, en:'Must book via Chase Travel'} },
+      rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'csp',
+      issuer: 'Chase',
+      name: 'Sapphire Preferred',
+      points: 'Chase UR',
+      annual: '$95/年',
+      color: '#1a1a3a',
+      rateNotes: { travel: {zh:{zh:'需通过 Chase Travel 享受最高倍率', en:'需通过 Chase Travel 享受最高倍率'}, en:'Must book via Chase Travel for top rate'}, flights: {zh:{zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, en:'Must book via Chase Travel'}, hotels: {zh:{zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, en:'Must book via Chase Travel'} },
+      rates: { dining: 3, grocery: 1, travel: 2, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'cfu',
+      issuer: 'Chase',
+      name: 'Freedom Unlimited',
+      points: 'Chase UR',
+      annual: '$0/年',
+      color: '#1a1a3a',
+      rateNotes: { travel: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, flights: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, hotels: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'} },
+      rates: { dining: 3, grocery: 1.5, travel: 5, flights: 5, hotels: 5, gas: 1.5, streaming: 1.5, rideshare: 1.5, amazon: 1.5, other: 1.5 }
+    },
+    {
+      id: 'cff',
+      issuer: 'Chase',
+      name: 'Freedom Flex',
+      points: 'Chase UR',
+      annual: '$0/年',
+      color: '#1a1a3a',
+      rateNotes: { travel: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, flights: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, hotels: {zh:'需通过 Chase Travel', en:'Must book via Chase Travel'}, amazon: {zh:'季度轮换类别，非永久', en:'Rotating quarterly category, not permanent'} },
+      rates: { dining: 3, grocery: 5, travel: 5, flights: 5, hotels: 5, gas: 1, streaming: 1, rideshare: 1, amazon: 5, other: 1 }
+    },
+    {
+      id: 'amex-gold',
+      issuer: 'Amex',
+      name: 'Gold Card',
+      points: 'Amex MR',
+      annual: '$250/年',
+      color: '#2a1f0a',
+      rateNotes: { flights: {zh:'需直接向航空公司购票', en:'Must purchase directly from airline'}, grocery: {zh:'仅限美国超市，上限$25K/年', en:'US supermarkets only, capped at $25K/yr'} },
+      rates: { dining: 4, grocery: 4, travel: 1, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'amex-plat',
+      issuer: 'Amex',
+      name: 'Platinum Card',
+      points: 'Amex MR',
+      annual: '$695/年',
+      color: '#2a1f0a',
+      rateNotes: { flights: {zh:'需直接向航空公司购票或通过 Amex Travel', en:'Must purchase directly from airline or via Amex Travel'}, hotels: {zh:'需通过 Amex Fine Hotels & Resorts 或 The Hotel Collection（Amex Travel）', en:'Must book via Amex Fine Hotels & Resorts or The Hotel Collection (Amex Travel)'} },
+      rates: { dining: 1, grocery: 1, travel: 1, flights: 5, hotels: 5, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'citi-premier',
+      issuer: 'Citi',
+      name: 'Strata Premier',
+      points: 'Citi TYP',
+      annual: '$95/年',
+      color: '#0a1a2a',
+      rates: { dining: 3, grocery: 3, travel: 3, flights: 3, hotels: 3, gas: 3, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'venture-x',
+      issuer: 'Capital One',
+      name: 'Venture X',
+      points: 'C1 Miles',
+      annual: '$395/年',
+      color: '#0a200a',
+      rateNotes: { flights: {zh:'5x 需通过 C1 Travel', en:'5x must book via Capital One Travel'}, hotels: {zh:'10x 需通过 C1 Travel', en:'10x must book via Capital One Travel'} },
+      rates: { dining: 2, grocery: 2, travel: 2, flights: 5, hotels: 10, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
+    },
+    {
+      id: 'bilt-blue',
+      issuer: 'Bilt',
+      name: 'Blue Card',
+      points: 'Bilt Points',
+      annual: '$0/年',
+      color: '#1a1020',
+      rates: { dining: 1, grocery: 1, travel: 1, flights: 1, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'bilt-obsidian',
+      issuer: 'Bilt',
+      name: 'Obsidian Card',
+      points: 'Bilt Points',
+      annual: '$95/年',
+      color: '#1a1020',
+      rateNotes: { dining: {zh:'每年二选一：餐饮或超市作为3x类别', en:'Choose one per year: dining OR grocery as your 3x category'}, grocery: {zh:'每年二选一：餐饮或超市作为3x类别（上限$25K/年）', en:'Choose one per year: dining OR grocery as 3x (grocery capped at $25K/yr)'} },
+      rates: { dining: 3, grocery: 3, travel: 2, flights: 2, hotels: 2, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'bilt-palladium',
+      issuer: 'Bilt',
+      name: 'Palladium Card',
+      points: 'Bilt Points',
+      annual: '$495/年',
+      color: '#1a1020',
+      rates: { dining: 2, grocery: 2, travel: 2, flights: 2, hotels: 2, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
+    },
+    {
+      id: 'boa-premium',
+      issuer: 'Bank of America',
+      name: 'Premium Rewards',
+      points: 'BoA Points',
+      annual: '$95/年',
+      color: '#1a0a0a',
+      rates: { dining: 2, grocery: 2, travel: 2, flights: 2, hotels: 2, gas: 1.5, streaming: 1.5, rideshare: 1.5, amazon: 1.5, other: 1.5 }
+    },
+    {
+      id: 'wells-autograph',
+      issuer: 'Wells Fargo',
+      name: 'Autograph',
+      points: 'WF Rewards',
+      annual: '$0/年',
+      color: '#1a0a00',
+      rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 3, gas: 3, streaming: 3, rideshare: 3, amazon: 1, other: 1 }
+    },
+    {
+      id: 'usbank-altitude',
+      issuer: 'US Bank',
+      name: 'Altitude Reserve',
+      points: 'US Bank Pts',
+      annual: '$400/年',
+      color: '#001a1a',
+      rates: { dining: 1, grocery: 1, travel: 3, flights: 3, hotels: 3, gas: 1, streaming: 1, rideshare: 3, amazon: 1, other: 1 }
+    },
+    // Hilton Series (Amex)
+    {
+      id: 'hilton-honors',
+      issuer: 'Amex · Hilton',
+      name: 'Honors',
+      points: 'Hilton Points',
+      annual: '$0/年',
+      cpp: 0.4,
+      color: '#0a1a10',
+      rateNotes: { hotels: {zh:'仅限希尔顿旗下酒店', en:'Hilton portfolio properties only'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'}, gas: {zh:'仅限美国加油站', en:'US gas stations only'} },
+      rates: { dining: 5, grocery: 5, travel: 3, flights: 3, hotels: 7, gas: 5, streaming: 3, rideshare: 3, amazon: 3, other: 3 }
+    },
+    {
+      id: 'hilton-surpass',
+      issuer: 'Amex · Hilton',
+      name: 'Honors Surpass',
+      points: 'Hilton Points',
+      annual: '$150/年',
+      cpp: 0.4,
+      color: '#0a1a10',
+      rateNotes: { hotels: {zh:'仅限希尔顿旗下酒店', en:'Hilton portfolio properties only'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'}, gas: {zh:'仅限美国加油站', en:'US gas stations only'} },
+      rates: { dining: 6, grocery: 6, travel: 3, flights: 3, hotels: 12, gas: 6, streaming: 3, rideshare: 3, amazon: 4, other: 3 }
+    },
+    {
+      id: 'hilton-aspire',
+      issuer: 'Amex · Hilton',
+      name: 'Honors Aspire',
+      points: 'Hilton Points',
+      annual: '$550/年',
+      cpp: 0.4,
+      color: '#0a1a10',
+      rateNotes: { hotels: {zh:'仅限希尔顿旗下酒店', en:'Hilton portfolio properties only'}, dining: {zh:'全球餐厅', en:'Worldwide restaurants'}, travel: {zh:'直接向航司购票及租车', en:'Direct airline bookings and car rentals'}, flights: {zh:'需直接向航空公司购票', en:'Must purchase directly from airline'} },
+      rates: { dining: 7, grocery: 3, travel: 7, flights: 7, hotels: 14, gas: 3, streaming: 3, rideshare: 7, amazon: 3, other: 3 }
+    },
+    // Marriott Series (Amex)
+    {
+      id: 'marriott-bevy',
+      issuer: 'Amex · Marriott',
+      name: 'Bonvoy Bevy',
+      points: 'Marriott Pts',
+      annual: '$250/年',
+      cpp: 0.7,
+      color: '#1a0a10',
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'}, dining: {zh:'全球餐厅', en:'Worldwide restaurants'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
+      rates: { dining: 4, grocery: 4, travel: 2, flights: 2, hotels: 6, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
+    },
+    {
+      id: 'marriott-brilliant',
+      issuer: 'Amex · Marriott',
+      name: 'Bonvoy Brilliant',
+      points: 'Marriott Pts',
+      annual: '$650/年',
+      cpp: 0.7,
+      color: '#1a0a10',
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'}, dining: {zh:'全球餐厅', en:'Worldwide restaurants'}, flights: {zh:'需直接向航空公司购票', en:'Must purchase directly from airline'} },
+      rates: { dining: 3, grocery: 2, travel: 2, flights: 3, hotels: 6, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
+    },
+    // Delta Series (Amex)
+    {
+      id: 'delta-blue',
+      issuer: 'Amex · Delta',
+      name: 'SkyMiles Blue',
+      points: 'Delta Miles',
+      annual: '$0/年',
+      color: '#001020',
+      rateNotes: { flights: {zh:'仅限 Delta 购票', en:'Delta purchases only'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
+      rates: { dining: 2, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'delta-gold',
+      issuer: 'Amex · Delta',
+      name: 'SkyMiles Gold',
+      points: 'Delta Miles',
+      annual: '$150/年',
+      color: '#001020',
+      rateNotes: { flights: {zh:'仅限 Delta 购票', en:'Delta purchases only'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
+      rates: { dining: 2, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'delta-platinum',
+      issuer: 'Amex · Delta',
+      name: 'SkyMiles Platinum',
+      points: 'Delta Miles',
+      annual: '$350/年',
+      color: '#001020',
+      rateNotes: { flights: {zh:'仅限 Delta 购票', en:'Delta purchases only'}, hotels: {zh:'仅限合作酒店直接预订', en:'Must book directly at partner hotels'}, dining: {zh:'仅限美国餐厅', en:'US restaurants only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
+      rates: { dining: 2, grocery: 2, travel: 1, flights: 3, hotels: 3, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'delta-reserve',
+      issuer: 'Amex · Delta',
+      name: 'SkyMiles Reserve',
+      points: 'Delta Miles',
+      annual: '$650/年',
+      color: '#001020',
+      rateNotes: { flights: {zh:'仅限 Delta 购票', en:'Delta purchases only'} },
+      rates: { dining: 1, grocery: 1, travel: 1, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    // Chase Marriott Series
+    {
+      id: 'chase-marriott-bold',
+      issuer: 'Chase · Marriott',
+      name: 'Bonvoy Bold',
+      points: 'Marriott Pts',
+      annual: '$0/年',
+      cpp: 0.7,
+      color: '#1a0a00',
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'} },
+      rates: { dining: 1, grocery: 1, travel: 2, flights: 2, hotels: 3, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'chase-marriott-boundless',
+      issuer: 'Chase · Marriott',
+      name: 'Bonvoy Boundless',
+      points: 'Marriott Pts',
+      annual: '$95/年',
+      cpp: 0.7,
+      color: '#1a0a00',
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'} },
+      rates: { dining: 3, grocery: 3, travel: 2, flights: 2, hotels: 6, gas: 3, streaming: 1, rideshare: 1, amazon: 1, other: 2 }
+    },
+    {
+      id: 'chase-marriott-bountiful',
+      issuer: 'Chase · Marriott',
+      name: 'Bonvoy Bountiful',
+      points: 'Marriott Pts',
+      annual: '$250/年',
+      cpp: 0.7,
+      color: '#1a0a00',
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店', en:'Marriott Bonvoy portfolio properties only'} },
+      rates: { dining: 4, grocery: 4, travel: 2, flights: 2, hotels: 6, gas: 2, streaming: 1, rideshare: 1, amazon: 1, other: 2 }
+    },
+    {
+      id: 'chase-ritz',
+      issuer: 'Chase · Marriott',
+      name: 'Ritz-Carlton Card',
+      points: 'Marriott Pts',
+      annual: '$450/年',
+      cpp: 0.7,
+      color: '#1a0a00',
+      rateNotes: { hotels: {zh:'仅限万豪 Bonvoy 旗下酒店（含丽思卡尔顿）', en:'Marriott Bonvoy properties only (incl. Ritz-Carlton)'}, flights: {zh:'需直接向航空公司购票', en:'Must purchase directly from airline'}, travel: {zh:'租车及直接购买机票', en:'Car rentals and direct airline purchases'} },
+      rates: { dining: 3, grocery: 2, travel: 3, flights: 3, hotels: 6, gas: 2, streaming: 2, rideshare: 3, amazon: 2, other: 2 }
+    },
+    // Alaska Airlines / Atmos (BoA)
+    {
+      id: 'atmos-ascent',
+      issuer: 'BoA · Alaska',
+      name: 'Atmos Ascent Visa',
+      points: 'Atmos Miles',
+      annual: '$75/年',
+      color: '#001a2a',
+      rateNotes: { flights: {zh:'仅限 Alaska & Hawaiian Airlines 购票', en:'Alaska & Hawaiian Airlines purchases only'}, gas: {zh:'仅限美国加油站及 EV 充电', en:'US gas stations & EV charging only'}, streaming: {zh:'仅限有线/流媒体订阅', en:'Cable/streaming subscriptions only'}, rideshare: {zh:'仅限本地交通/打车/公交', en:'Local transit, rideshare & commuter only'} },
+      rates: { dining: 1, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 2, streaming: 2, rideshare: 2, amazon: 1, other: 1 }
+    },
+    {
+      id: 'atmos-summit',
+      issuer: 'BoA · Alaska',
+      name: 'Atmos Summit Infinite',
+      points: 'Atmos Miles',
+      annual: '$395/年',
+      color: '#001a2a',
+      rateNotes: { flights: {zh:'仅限 Alaska & Hawaiian Airlines 购票（国内3x，海外开关可全部3x）', en:'Alaska & Hawaiian purchases only (domestic 3x; toggle overseas mode for 3x everywhere)'}, dining: {zh:'海外模式下3x', en:'3x when overseas mode is ON'}, other: {zh:'海外消费全部3x（需开启海外模式）', en:'All overseas spend earns 3x (enable overseas mode)'} },
+      rates: { dining: 3, grocery: 1, travel: 3, flights: 3, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    // Citi Double Cash
+    {
+      id: 'citi-doublecash',
+      issuer: 'Citi',
+      name: 'Double Cash',
+      points: 'Citi TYP',
+      annual: '$0/年',
+      color: '#0a1a2a',
+      rates: { dining: 2, grocery: 2, travel: 2, flights: 2, hotels: 2, gas: 2, streaming: 2, rideshare: 2, amazon: 2, other: 2 }
+    },
+    // Citi AAdvantage Series
+    {
+      id: 'citi-aa-mileup',
+      issuer: 'Citi · AA',
+      name: 'AAdvantage MileUp',
+      points: 'AA Miles',
+      annual: '$0/年',
+      color: '#1a0a1a',
+      rateNotes: { flights: {zh:'仅限 American Airlines 购票', en:'American Airlines purchases only'}, grocery: {zh:'仅限美国超市', en:'US supermarkets only'} },
+      rates: { dining: 1, grocery: 2, travel: 1, flights: 2, hotels: 1, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'citi-aa-platinum',
+      issuer: 'Citi · AA',
+      name: 'AAdvantage Plat. Select',
+      points: 'AA Miles',
+      annual: '$99/年',
+      color: '#1a0a1a',
+      rateNotes: { flights: {zh:'仅限 American Airlines 购票', en:'American Airlines purchases only'}, dining: {zh:'餐厅消费', en:'Restaurant purchases'}, gas: {zh:'仅限美国加油站', en:'US gas stations only'} },
+      rates: { dining: 2, grocery: 1, travel: 1, flights: 2, hotels: 1, gas: 2, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    {
+      id: 'citi-aa-executive',
+      issuer: 'Citi · AA',
+      name: 'AAdvantage Executive',
+      points: 'AA Miles',
+      annual: '$595/年',
+      color: '#1a0a1a',
+      rateNotes: { flights: {zh:'仅限 American Airlines 购票', en:'American Airlines purchases only'}, hotels: {zh:'10x 需通过 aa.com/hotels 预订', en:'10x must book via aa.com/hotels'} },
+      rates: { dining: 1, grocery: 1, travel: 1, flights: 4, hotels: 10, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+    // Citi Strata Elite
+    {
+      id: 'citi-strata-elite',
+      issuer: 'Citi',
+      name: 'Strata Elite',
+      points: 'Citi TYP',
+      annual: '$595/年',
+      color: '#0a1a2a',
+      rateNotes: { hotels: {zh:'12x 需通过 Citi Travel 预订', en:'12x must book via Citi Travel'}, flights: {zh:'6x 需通过 Citi Travel 购票', en:'6x must book flights via Citi Travel'}, dining: {zh:'周五周六晚6pm-6am可享6x（Citi Nights）', en:'6x on Fri & Sat nights 6pm–6am (Citi Nights)'} },
+      rates: { dining: 3, grocery: 1, travel: 6, flights: 6, hotels: 12, gas: 1, streaming: 1, rideshare: 1, amazon: 1, other: 1 }
+    },
+  ];
+
+  const CATEGORIES = [
+    { id: 'dining',     zh: '餐饮',            en: 'Dining',           icon: '🍽️' },
+    { id: 'grocery',    zh: '超市',            en: 'Groceries',        icon: '🛒' },
+    { id: 'flights',    zh: '机票',            en: 'Flights',          icon: '✈️' },
+    { id: 'hotels',     zh: '酒店',            en: 'Hotels',           icon: '🏨' },
+    { id: 'travel',     zh: '通用旅行',         en: 'General Travel',   icon: '🗺️' },
+    { id: 'gas',        zh: '加油',            en: 'Gas / EV',         icon: '⛽' },
+    { id: 'rideshare',  zh: '打车 (Uber/Lyft)', en: 'Rideshare',        icon: '🚗' },
+    { id: 'streaming',  zh: '流媒体订阅',       en: 'Streaming',        icon: '📺' },
+    { id: 'amazon',     zh: 'Amazon',          en: 'Amazon',           icon: '📦' },
+    { id: 'other',      zh: '其他消费',         en: 'Everything Else',  icon: '💳' },
+  ];
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  let selectedCards = new Set();
+  let currentUser = null;
+  let overseasMode = false;
+  let pageLang = localStorage.getItem('ph-lang') || 'zh';
+  let db, auth;
+
+  // i18n helper
+  const I18N = {
+    zh: {
+      pageTitle: '我的卡包 💳',
+      pageSub: '选择你持有的卡，查看专属攒点对比',
+      tabSelect: '选择持卡',
+      tabCompare: '消费对比表',
+      selectedCount: (n) => `已选 <strong>${n}</strong> 张`,
+      clearAll: '清空选择',
+      goCompare: '查看对比表 →',
+      notice: '⚡ 紫色 = 最高等效倍率 | 绿色 = 不错选择 | 灰色 = 基础倍率。Marriott ×0.7、Hilton ×0.4 估值加权，数据仅供参考。',
+      overseasLabel: '🌍 海外消费模式：',
+      overseasOn: '开',
+      overseasOff: '关',
+      overseasHint: '开启后 Atmos Summit 所有类别变为 3x',
+      bestBadge: '最优',
+      rawLabel: (r) => `${r}x 原始`,
+      cppNote: (v) => `×${v} cpp估值`,
+      catHeader: '消费类别',
+      emptyTitle: '还没选卡呢',
+      emptyDesc: '先去「选择持卡」选一下你有哪些卡',
+      signIn: '用 Google 账号登录',
+      gateTitle: '我的卡包',
+      gateDesc: '登录后选择你持有的信用卡，自动生成专属消费攒点对比表 —— 一眼看出每笔消费该刷哪张。',
+      gateConsent: '登录即表示同意我们存储你的卡片选择（仅此而已，无广告追踪）',
+      signOut: '退出',
+      demoMode: '演示模式（未连接 Firebase）',
+      footer: '© 2026 积分猎人在北美 · 数据仅供参考，请以各银行官网为准',
+    },
+    en: {
+      pageTitle: 'My Card Wallet 💳',
+      pageSub: 'Select your cards and view your personalized earn-rate table',
+      tabSelect: 'Select Cards',
+      tabCompare: 'Comparison Table',
+      selectedCount: (n) => `<strong>${n}</strong> card${n !== 1 ? 's' : ''} selected`,
+      clearAll: 'Clear all',
+      goCompare: 'View comparison →',
+      notice: '⚡ Purple = highest effective rate | Green = great option | Gray = base rate. Marriott ×0.7, Hilton ×0.4 cpp-weighted. For reference only.',
+      overseasLabel: '🌍 Overseas Mode: ',
+      overseasOn: 'ON',
+      overseasOff: 'OFF',
+      overseasHint: 'When ON, Atmos Summit earns 3x on all categories',
+      bestBadge: 'Best',
+      rawLabel: (r) => `${r}x raw`,
+      cppNote: (v) => `×${v} cpp`,
+      catHeader: 'Spend Category',
+      emptyTitle: 'No cards selected yet',
+      emptyDesc: 'Go to "Select Cards" to choose your cards',
+      signIn: 'Sign in with Google',
+      gateTitle: 'My Card Wallet',
+      gateDesc: 'Sign in to select your credit cards and get a personalized earn-rate comparison — instantly see which card to swipe for every purchase.',
+      gateConsent: 'By signing in, you agree to store your card selections (nothing else, no ad tracking)',
+      signOut: 'Sign out',
+      demoMode: 'Demo mode (Firebase not connected)',
+      footer: '© 2026 Points Hunter NA · For reference only — verify rates with your card issuer',
+    },
+  };
+
+  function t(key, ...args) {
+    const val = I18N[pageLang][key];
+    return typeof val === 'function' ? val(...args) : val;
+  }
+
+  // ============================================================
+  // FIREBASE INIT
+  // ============================================================
+  let firebaseReady = false;
+  try {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    firebaseReady = true;
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        showApp(user);
+        await loadUserCards(user.uid);
+      } else {
+        currentUser = null;
+        showLogin();
+      }
+    });
+  } catch(e) {
+    console.warn('Firebase init failed — running in demo mode', e);
+    // Demo mode: show app without login
+    showDemoMode();
+  }
+
+  // ============================================================
+  // AUTH
+  // ============================================================
+  window.signInWithGoogle = async () => {
+    if (!firebaseReady) { showDemoMode(); return; }
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch(e) {
+      console.error(e);
+      alert('登录失败，请检查 Firebase 配置或网络连接');
+    }
+  };
+
+  window.signInWithApple = async () => {
+    if (!firebaseReady) { showDemoMode(); return; }
+    const provider = new OAuthProvider('apple.com');
+    provider.addScope('email');
+    provider.addScope('name');
+    try {
+      await signInWithPopup(auth, provider);
+    } catch(e) {
+      console.error(e);
+      alert('Apple 登录失败，请确认已在 Firebase 控制台启用 Apple 登录');
+    }
+  };
+
+  window.continueAsGuest = () => {
+    currentUser = null;
+    // Load from localStorage for guest
+    const saved = localStorage.getItem('ph-guest-cards');
+    if (saved) {
+      try { selectedCards = new Set(JSON.parse(saved)); } catch(e) {}
+    }
+    showGuestMode();
+  };
+
+  window.signOutUser = async () => {
+    if (auth) await signOut(auth);
+    showLogin();
+  };
+
+  // ============================================================
+  // FIRESTORE: load & save
+  // ============================================================
+  async function loadUserCards(uid) {
+    if (!db) return;
+    try {
+      const snap = await getDoc(doc(db, 'users', uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        selectedCards = new Set(data.cards || []);
+      }
+    } catch(e) { console.warn('load failed', e); }
+    renderCardGrid();
+    renderCompareTable();
+  }
+
+  async function saveUserCards(uid) {
+    if (!db || !uid) {
+      // Guest mode: save to localStorage
+      localStorage.setItem('ph-guest-cards', JSON.stringify([...selectedCards]));
+      return;
+    }
+    try {
+      await setDoc(doc(db, 'users', uid), { cards: [...selectedCards] }, { merge: true });
+    } catch(e) { console.warn('save failed', e); }
+  }
+
+  function showDemoMode() {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('app-section').classList.remove('hidden');
+    document.getElementById('nav-right').innerHTML = `<span style="font-size:0.8rem;color:var(--muted)">${t('demoMode')}</span>`;
+    applyStaticStrings();
+    renderCardGrid();
+    renderCompareTable();
+  }
+
+  function showGuestMode() {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('app-section').classList.remove('hidden');
+    document.getElementById('nav-right').innerHTML = `
+      <span style="font-size:0.8rem;color:var(--muted);">👤 ${pageLang === 'zh' ? '游客模式' : 'Guest'}</span>
+      <button class="btn btn-outline btn-sm" onclick="showLoginGate()">${pageLang === 'zh' ? '登录' : 'Sign in'}</button>`;
+    applyStaticStrings();
+    renderCardGrid();
+    renderCompareTable();
+  }
+
+  window.showLoginGate = () => {
+    document.getElementById('login-section').classList.remove('hidden');
+    document.getElementById('app-section').classList.add('hidden');
+  };
+
+  function showLogin() {
+    document.getElementById('login-section').classList.remove('hidden');
+    document.getElementById('app-section').classList.add('hidden');
+    document.getElementById('nav-right').innerHTML = `
+      <button class="btn btn-primary btn-sm" onclick="signInWithGoogle()">
+        <div class="google-icon" style="width:14px;height:14px;font-size:10px;">G</div> Google
+      </button>`;
+  }
+
+  function showApp(user) {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('app-section').classList.remove('hidden');
+    const initial = (user.displayName || user.email || '?')[0].toUpperCase();
+    const avatarHtml = user.photoURL ? `<img src="${user.photoURL}" />` : initial;
+    document.getElementById('nav-right').innerHTML = `
+      <div class="user-info">
+        <div class="avatar">${avatarHtml}</div>
+        <span>${user.displayName || user.email}</span>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="signOutUser()">${t('signOut')}</button>`;
+    document.getElementById('page-sub').textContent =
+      `${user.displayName || ''} · ${t('pageSub')}`;
+    applyStaticStrings();
+    renderCardGrid();
+    renderCompareTable();
+  }
+
+  // ============================================================
+  // RENDER: card selector
+  // ============================================================
+  function renderCardGrid() {
+    const grid = document.getElementById('card-grid');
+    grid.innerHTML = CARDS.map(c => {
+      const sel = selectedCards.has(c.id);
+      return `
+        <div class="cc-card ${sel ? 'selected' : ''}" onclick="toggleCard('${c.id}')">
+          <div class="check">${sel ? '✓' : ''}</div>
+          <div class="cc-issuer">${c.issuer}</div>
+          <div class="cc-name">${c.name}</div>
+          <div class="cc-points">
+            <span>✦ ${c.points}</span>
+            <span class="cc-bonus-label">${c.annual}</span>
+          </div>
+        </div>`;
+    }).join('');
+    const countEl = document.querySelector('.selected-count');
+    if (countEl) countEl.innerHTML = t('selectedCount', selectedCards.size);
+  }
+
+  window.toggleCard = async (id) => {
+    if (selectedCards.has(id)) {
+      selectedCards.delete(id);
+    } else {
+      selectedCards.add(id);
+    }
+    renderCardGrid();
+    renderCompareTable();
+    await saveUserCards(currentUser ? currentUser.uid : null);
+  };
+
+  window.clearAll = async () => {
+    selectedCards.clear();
+    renderCardGrid();
+    renderCompareTable();
+    await saveUserCards(currentUser ? currentUser.uid : null);
+  };
+
+  // ============================================================
+  // RENDER: comparison table
+  // ============================================================
+  function getEffectiveRate(card, catId) {
+    let rate = card.rates[catId] || 1;
+    // Overseas mode: Atmos Summit all categories → 3x
+    if (overseasMode && card.id === 'atmos-summit') rate = 3;
+    // CPP weighting
+    const cpp = card.cpp || 1.0;
+    return rate * cpp;
+  }
+
+  function formatRate(val) {
+    // Show 1 decimal only if not a whole number
+    return Number.isInteger(val) ? val.toString() : val.toFixed(1);
+  }
+
+  function renderCompareTable() {
+    const wrap = document.getElementById('compare-content');
+    const selected = CARDS.filter(c => selectedCards.has(c.id));
+
+    if (selected.length === 0) {
+      wrap.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">💳</div>
+          <h3>${t('emptyTitle')}</h3>
+          <p style="margin-top:6px;">${t('emptyDesc')}</p>
+        </div>`;
+      return;
+    }
+
+    // Build table
+    let html = `<div class="table-wrap"><table>
+      <thead>
+        <tr>
+          <th class="cat-col">${t('catHeader')}</th>
+          ${selected.map(c => {
+            const hasCpp = c.cpp && c.cpp !== 1.0;
+            const cppNote = hasCpp ? `<span style="font-size:0.65rem;color:var(--muted);display:block;font-weight:400;">${t('cppNote', c.cpp)}</span>` : '';
+            return `<th class="card-col">${c.issuer}<br/>${c.name}${cppNote}</th>`;
+          }).join('')}
+        </tr>
+      </thead>
+      <tbody>`;
+
+    CATEGORIES.forEach(cat => {
+      const catLabel = cat[pageLang] || cat.zh;
+      const effRates = selected.map(c => getEffectiveRate(c, cat.id));
+      const maxRate = Math.max(...effRates);
+
+      html += `<tr>
+        <td>
+          <div class="cat-cell">
+            <span class="cat-icon">${cat.icon}</span>
+            <span>${catLabel}</span>
+          </div>
+        </td>`;
+
+      selected.forEach((c, i) => {
+        const rawRate = (overseasMode && c.id === 'atmos-summit') ? 3 : (c.rates[cat.id] || 1);
+        const effRate = effRates[i];
+        const isBest = effRate === maxRate && effRate > (c.cpp || 1);
+        const isGreat = effRate >= maxRate * 0.75 && effRate > (c.cpp || 1) && effRate < maxRate;
+        const cls = isBest ? 'best' : isGreat ? 'great' : '';
+        const hasCpp = c.cpp && c.cpp !== 1.0;
+        const displayVal = hasCpp ? formatRate(effRate) : rawRate;
+        const rawLabel = hasCpp ? `<span class="points-label">${t('rawLabel', rawRate)}</span>` : '';
+        const noteObj = c.rateNotes && c.rateNotes[cat.id];
+        const noteText = noteObj ? (typeof noteObj === 'object' ? (noteObj[pageLang] || noteObj.zh) : noteObj) : null;
+        const noteHtml = noteText ? `<span class="rate-note">⚠<span class="tip">${noteText}</span></span>` : '';
+        html += `<td>
+          <div>
+            <span class="multiplier ${cls}">${displayVal}x</span>${noteHtml}
+            ${rawLabel}
+            <span class="points-label">${c.points}</span>
+            ${isBest && selected.length > 1 ? `<span class="best-badge">${t('bestBadge')}</span>` : ''}
+          </div>
+        </td>`;
+      });
+
+      html += `</tr>`;
+    });
+
+    html += `</tbody></table></div>`;
+    wrap.innerHTML = html;
+  }
+
+  // ============================================================
+  // OVERSEAS TOGGLE
+  // ============================================================
+  window.toggleOverseas = () => {
+    overseasMode = !overseasMode;
+    const btn = document.getElementById('overseas-btn');
+    const status = document.getElementById('overseas-status');
+    if (status) status.textContent = overseasMode ? t('overseasOn') : t('overseasOff');
+    if (btn) {
+      btn.style.borderColor = overseasMode ? 'var(--accent)' : '';
+      btn.style.color = overseasMode ? 'var(--accent)' : '';
+    }
+    renderCompareTable();
+  };
+
+  // ============================================================
+  // LANG
+  // ============================================================
+  window.setPageLang = (lang) => {
+    pageLang = lang;
+    localStorage.setItem('ph-lang', lang);
+    document.getElementById('page-btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('page-btn-zh').classList.toggle('active', lang === 'zh');
+    applyStaticStrings();
+    renderCardGrid();
+    renderCompareTable();
+  };
+
+  function applyStaticStrings() {
+    // Page header
+    const h1 = document.querySelector('#app-section h1');
+    if (h1) h1.textContent = t('pageTitle');
+    const sub = document.getElementById('page-sub');
+    if (sub) sub.textContent = t('pageSub');
+    // Tabs
+    const tabs = document.querySelectorAll('.tab');
+    if (tabs[0]) tabs[0].textContent = t('tabSelect');
+    if (tabs[1]) tabs[1].textContent = t('tabCompare');
+    // Clear btn
+    const clearBtn = document.querySelector('[onclick="clearAll()"]');
+    if (clearBtn) clearBtn.textContent = t('clearAll');
+    // Compare btn
+    const cmpBtn = document.getElementById('compare-btn');
+    if (cmpBtn) cmpBtn.textContent = t('goCompare');
+    // Notice
+    const notice = document.querySelector('.notice');
+    if (notice) notice.textContent = t('notice');
+    // Overseas
+    const oStatus = document.getElementById('overseas-status');
+    if (oStatus) oStatus.textContent = overseasMode ? t('overseasOn') : t('overseasOff');
+    const oLabel = document.getElementById('overseas-label');
+    if (oLabel) oLabel.textContent = t('overseasLabel');
+    const oHint = document.getElementById('overseas-hint');
+    if (oHint) oHint.textContent = t('overseasHint');
+    // Selected count
+    const selCount = document.getElementById('sel-count');
+    if (selCount) {
+      const countEl = document.querySelector('.selected-count');
+      if (countEl) countEl.innerHTML = t('selectedCount', selectedCards.size);
+    }
+    // Footer
+    const footer = document.querySelector('footer');
+    if (footer) footer.textContent = t('footer');
+    // Gate
+    const gateH2 = document.querySelector('.gate h2');
+    if (gateH2) gateH2.textContent = t('gateTitle');
+    const gateP = document.querySelector('.gate p');
+    if (gateP) gateP.textContent = t('gateDesc');
+    const signInBtn = document.querySelector('.gate .btn-primary');
+    if (signInBtn) {
+      const gIcon = signInBtn.querySelector('.google-icon');
+      signInBtn.textContent = '';
+      if (gIcon) signInBtn.appendChild(gIcon);
+      signInBtn.appendChild(document.createTextNode(' ' + t('signIn')));
+    }
+  }
+
+  // ============================================================
+  // TABS
+  // ============================================================
+  window.switchTab = (tab) => {
+    document.querySelectorAll('.tab').forEach((el, i) => {
+      el.classList.toggle('active', (i === 0 && tab === 'select') || (i === 1 && tab === 'compare'));
+    });
+    document.getElementById('tab-select').classList.toggle('hidden', tab !== 'select');
+    document.getElementById('tab-compare').classList.toggle('hidden', tab !== 'compare');
+    if (tab === 'compare') renderCompareTable();
+    applyStaticStrings();
+  };
+
+  // Init lang buttons
+  document.getElementById('page-btn-en').classList.toggle('active', pageLang === 'en');
+  document.getElementById('page-btn-zh').classList.toggle('active', pageLang === 'zh');
+</script>
+
+</body>
+</html>
