@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chase转Avios 20% · Amex转Lifemiles 15% · Capital One转酒店30% | 积分猎人在北美</title>
+  <meta name="description" content="Chase UR转Avios 20% bonus到3/31；Amex MR转Lifemiles 15%到3/28；Capital One转Preferred Hotels加赠30%到4/1；IHG 15% off award stays；Royal Jordanian Status Match。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0f13; --surface: #1a1a24; --surface2: #22222f;
+      --border: #2e2e3e; --accent: #7c6ef7; --accent2: #f7c26e;
+      --text: #e8e8f0; --muted: #888899; --tag-bg: #2a2a3a;
+      --red: #f76e6e; --green: #6ef7a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    nav {
+      border-bottom: 1px solid var(--border); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px; position: sticky; top: 0;
+      background: rgba(15,15,19,0.92); backdrop-filter: blur(12px); z-index: 100;
+    }
+    .nav-brand { font-weight: 700; font-size: 1rem; color: var(--text); text-decoration: none; }
+    .nav-brand span { color: var(--accent); }
+    .lang-toggle {
+      display: flex; align-items: center; gap: 2px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 99px; padding: 3px;
+    }
+    .lang-btn { padding: 4px 14px; border-radius: 99px; font-size: 0.78rem; font-weight: 600; color: var(--muted); transition: all 0.18s; cursor: pointer; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .article-wrap { max-width: 740px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.85rem; text-decoration: none; margin-bottom: 2rem; transition: color 0.15s; }
+    .back-link:hover { color: var(--text); }
+    .article-badge { display: inline-flex; align-items: center; background: var(--tag-bg); border: 1px solid var(--border); color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 14px; border-radius: 99px; margin-bottom: 1rem; }
+    .article-header { margin-bottom: 2.5rem; }
+    .article-header h1 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; line-height: 1.3; margin-bottom: 1rem; }
+    .article-meta { display: flex; align-items: center; gap: 1rem; color: var(--muted); font-size: 0.82rem; flex-wrap: wrap; }
+
+    .alert { border-radius: 14px; padding: 1.2rem 1.4rem; margin: 1.5rem 0; border: 1px solid; display: flex; gap: 12px; align-items: flex-start; }
+    .alert.urgent { background: rgba(247,110,110,0.08); border-color: rgba(247,110,110,0.3); }
+    .alert.info { background: rgba(124,110,247,0.07); border-color: rgba(124,110,247,0.25); }
+    .alert-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .alert-body strong { display: block; margin-bottom: 4px; font-size: 0.9rem; }
+    .alert.urgent .alert-body strong { color: var(--red); }
+    .alert.info .alert-body strong { color: var(--accent); }
+    .alert-body p { color: var(--text); font-size: 0.9rem; margin: 0; }
+
+    .section { margin: 2.5rem 0; }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem; }
+    .section-icon { font-size: 1.2rem; }
+    .section h2 { font-size: 1.1rem; font-weight: 700; }
+
+    .highlight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem; margin-bottom: 1rem; }
+    .highlight-card.hot { background: linear-gradient(135deg, #1e1b3a 0%, var(--surface) 100%); border-color: rgba(124,110,247,0.5); }
+    .highlight-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .highlight-card p { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .highlight-card p:last-child { margin-bottom: 0; }
+    .highlight-card .text-bright { color: var(--text); }
+
+    .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.8rem; }
+    .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 600; background: var(--tag-bg); border: 1px solid var(--border); padding: 4px 12px; border-radius: 99px; color: var(--text); }
+    .pill .val { color: var(--green); }
+    .pill .warn { color: var(--red); }
+    .pill .gold { color: var(--accent2); }
+
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+    .info-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; }
+    .info-item .label { font-size: 0.72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .info-item .value { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .info-item .sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    .tip-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 1.1rem 1.3rem; margin: 1.5rem 0; font-size: 0.88rem; }
+    .tip-box strong { color: var(--accent); }
+
+    footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; }
+    .lang-hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-brand">Points Hunter <span>🇺🇸</span></a>
+    <div class="lang-toggle">
+      <span class="lang-btn" data-lang="en">EN</span>
+      <span class="lang-btn active" data-lang="zh">中文</span>
+    </div>
+  </nav>
+
+  <div class="article-wrap">
+    <a href="index.html" class="back-link">← Back to Home</a>
+
+    <div class="article-badge">Daily Digest · March 10</div>
+
+    <header class="article-header">
+      <h1>Chase转Avios 20% · Amex转Lifemiles 15% · Capital One酒店30%</h1>
+      <div class="article-meta">
+        <span>📅 2026-03-10</span>
+        <span>✍️ Points Hunter</span>
+      </div>
+    </header>
+
+    <div class="alert info">
+      <span class="alert-icon">💡</span>
+      <div class="alert-body">
+        <strong>Today's Highlights</strong>
+        <p>三大转分bonus齐发！Chase/Amex/Capital One都有动作。另外IHG和Royal Jordanian也有新促销。</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">✈️</span>
+        <h2>Transfer Bonuses — 本周转分Bonus</h2>
+      </div>
+
+      <div class="highlight-card hot">
+        <h3>Chase Ultimate Rewards → British Airways Avios</h3>
+        <p>20% transfer bonus</p>
+        <div class="pill-list">
+          <span class="pill">📅 到 3/31/2026</span>
+          <span class="pill">🔄 Chase UR</span>
+          <span class="pill">→ Avios</span>
+        </div>
+      </div>
+
+      <div class="highlight-card hot">
+        <h3>Amex Membership Rewards → Avianca Lifemiles</h3>
+        <p>15% transfer bonus</p>
+        <div class="pill-list">
+          <span class="pill">📅 到 3/28/2026</span>
+          <span class="pill">🔄 Amex MR</span>
+          <span class="pill">→ Lifemiles</span>
+        </div>
+      </div>
+
+      <div class="highlight-card hot">
+        <h3>Capital One → Preferred Hotels & Resorts</h3>
+        <p>30% transfer bonus — 目前最高！</p>
+        <div class="pill-list">
+          <span class="pill">📅 到 4/1/2026</span>
+          <span class="pill">🔄 Capital One</span>
+          <span class="pill">→ Preferred Hotels</span>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>💎 估值参考</strong><br>
+        Chase UR / Amex MR / Capital One 点数估值约 1.5-2¢/点。转分前先算好是否划算！
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🏨</span>
+        <h2>Hotel News — 酒店动态</h2>
+      </div>
+
+      <div class="highlight-card">
+        <h3>IHG 15% Off Award Stays</h3>
+        <p>IHG One Rewards 会员专属，15%折扣预订award nights</p>
+        <div class="pill-list">
+          <span class="pill">🎫 IHG 持卡/会员</span>
+          <span class="pill">🏨 Award Redemption</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🎫</span>
+        <h2>Status Match — 匹配机会</h2>
+      </div>
+
+      <div class="highlight-card">
+        <h3>Royal Jordanian Status Match to Oneworld Sapphire</h3>
+        <p>$199 匹配费，有效期 3/9-15/2026。可将希尔顿/万豪/IHG/Hyatt/雅高status匹配到Royal Jordanian Gold Sparrow (Oneworld Sapphire)</p>
+        <div class="pill-list">
+          <span class="pill">💰 $199</span>
+          <span class="pill">📅 3/9-15</span>
+          <span class="pill">🌐 Oneworld Sapphire</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">📊</span>
+        <h2>Quick Reference — 快速参考</h2>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="label">Chase → Avios</div>
+          <div class="value">+20%</div>
+          <div class="sub">到 3/31</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Amex → Lifemiles</div>
+          <div class="value">+15%</div>
+          <div class="sub">到 3/28</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Capital One → Preferred</div>
+          <div class="value">+30%</div>
+          <div class="sub">到 4/1</div>
+        </div>
+        <div class="info-item">
+          <div class="label">IHG Award</div>
+          <div class="value">-15%</div>
+          <div class="sub">折扣</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>⚠️ 注意</strong><br>
+      转分前请确认目标航司/酒店有可用奖励。Bonus只是额外赠送，原有点数价值不变。
+    </div>
+
+    <footer>
+      <p>© 2026 Points Hunter in North America | 积分猎人在北美</p>
+      <p>Daily points, miles & travel deals</p>
+    </footer>
+  </div>
+
+  <script>
+    // Simple lang toggle
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
