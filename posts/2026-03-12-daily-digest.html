@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>机票涨价潮来了！中东航班大乱，燃油附加费飙升35% | 积分猎人在北美</title>
+  <meta name="description" content="中东冲突导致航煤价格暴涨80%，超43,000航班取消，香港航空燃油附加费上调35.2%，多家航空公司加价。里程票是否受影响？如何应对？" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0f13; --surface: #1a1a24; --surface2: #22222f;
+      --border: #2e2e3e; --accent: #7c6ef7; --accent2: #f7c26e;
+      --text: #e8e8f0; --muted: #888899; --tag-bg: #2a2a3a;
+      --red: #f76e6e; --green: #6ef7a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    nav {
+      border-bottom: 1px solid var(--border); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px; position: sticky; top: 0;
+      background: rgba(15,15,19,0.92); backdrop-filter: blur(12px); z-index: 100;
+    }
+    .nav-brand { font-weight: 700; font-size: 1rem; color: var(--text); text-decoration: none; }
+    .nav-brand span { color: var(--accent); }
+    .lang-toggle {
+      display: flex; align-items: center; gap: 2px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 99px; padding: 3px;
+    }
+    .lang-btn { padding: 4px 14px; border-radius: 99px; font-size: 0.78rem; font-weight: 600; color: var(--muted); transition: all 0.18s; cursor: pointer; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .article-wrap { max-width: 740px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.85rem; text-decoration: none; margin-bottom: 2rem; transition: color 0.15s; }
+    .back-link:hover { color: var(--text); }
+    .article-badge { display: inline-flex; align-items: center; background: var(--tag-bg); border: 1px solid var(--border); color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 14px; border-radius: 99px; margin-bottom: 1rem; }
+    .article-header { margin-bottom: 2.5rem; }
+    .article-header h1 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; line-height: 1.3; margin-bottom: 1rem; }
+    .article-meta { display: flex; align-items: center; gap: 1rem; color: var(--muted); font-size: 0.82rem; flex-wrap: wrap; }
+
+    .alert { border-radius: 14px; padding: 1.2rem 1.4rem; margin: 1.5rem 0; border: 1px solid; display: flex; gap: 12px; align-items: flex-start; }
+    .alert.urgent { background: rgba(247,110,110,0.08); border-color: rgba(247,110,110,0.3); }
+    .alert.info { background: rgba(124,110,247,0.07); border-color: rgba(124,110,247,0.25); }
+    .alert-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .alert-body strong { display: block; margin-bottom: 4px; font-size: 0.9rem; }
+    .alert.urgent .alert-body strong { color: var(--red); }
+    .alert.info .alert-body strong { color: var(--accent); }
+    .alert-body p { color: var(--text); font-size: 0.9rem; margin: 0; }
+
+    .section { margin: 2.5rem 0; }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem; }
+    .section-icon { font-size: 1.2rem; }
+    .section h2 { font-size: 1.1rem; font-weight: 700; }
+
+    .highlight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem; margin-bottom: 1rem; }
+    .highlight-card.hot { background: linear-gradient(135deg, #1e1b3a 0%, var(--surface) 100%); border-color: rgba(124,110,247,0.5); }
+    .highlight-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .highlight-card p { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .highlight-card p:last-child { margin-bottom: 0; }
+    .highlight-card .text-bright { color: var(--text); }
+
+    .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.8rem; }
+    .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 600; background: var(--tag-bg); border: 1px solid var(--border); padding: 4px 12px; border-radius: 99px; color: var(--text); }
+    .pill .val { color: var(--green); }
+    .pill .warn { color: var(--red); }
+    .pill .gold { color: var(--accent2); }
+
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+    .info-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; }
+    .info-item .label { font-size: 0.72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .info-item .value { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .info-item .sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    .tip-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 1.1rem 1.3rem; margin: 1.5rem 0; font-size: 0.88rem; }
+    .tip-box strong { color: var(--accent); }
+
+    .strategy-list { list-style: none; padding: 0; }
+    .strategy-list li { padding: 0.8rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; display: flex; gap: 12px; align-items: flex-start; }
+    .strategy-list li:last-child { border-bottom: none; }
+    .strategy-num { background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; }
+    .lang-hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-brand">✈️ Points Hunter <span>NA</span></a>
+  <div class="lang-toggle">
+    <div class="lang-btn" id="btn-en" onclick="setLang('en')">EN</div>
+    <div class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+  <a href="../index.html" class="back-link">← <span data-lang="en" class="lang-hidden">Back to home</span><span data-lang="zh">返回首页</span></a>
+
+  <div class="article-header" data-lang="zh">
+    <div class="article-badge">📅 每日速递</div>
+    <h1>机票涨价潮来了！中东航班大乱，燃油附加费飙升35%</h1>
+    <div class="article-meta">
+      <span>2026年3月12日（周四）</span>
+      <span class="dot">·</span>
+      <span>4 分钟阅读</span>
+    </div>
+  </div>
+
+  <div class="article-header lang-hidden" data-lang="en">
+    <div class="article-badge">📅 Daily Digest</div>
+    <h1>Airfares Surge Amid Middle East Chaos: Fuel Surcharges Jump 35%</h1>
+    <div class="article-meta">
+      <span>March 12, 2026 (Thu)</span>
+      <span class="dot">·</span>
+      <span>4 min read</span>
+    </div>
+  </div>
+
+  <div class="alert urgent">
+    <div class="alert-icon">⚠️</div>
+    <div class="alert-body">
+      <strong data-lang="zh">航煤价格暴涨80%，机票涨价潮蔓延全球</strong>
+      <strong data-lang="en" class="lang-hidden">Jet Fuel Up 80%, Airfare Hikes Go Global</strong>
+      <p data-lang="zh">由于中东冲突，自2月底以来已有超43,000航班被取消。Jet Fuel价格从$85-90飙升到$150-200/桶，多家航司已宣布加价。</p>
+      <p data-lang="en" class="lang-hidden">Since late February, 43,000+ flights cancelled. Jet fuel jumped from $85-90 to $150-200/barrel. Multiple airlines have raised prices.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">📈</span>
+      <h2 data-lang="zh">多家航司已宣布涨价，最高35%</h2>
+      <h2 data-lang="en" class="lang-hidden">Airlines Raising Fares: Up to 35%</h2>
+    </div>
+
+    <div class="highlight-card hot">
+      <h3 data-lang="zh">亚洲-欧洲航线影响最大</h3>
+      <h3 data-lang="en" class="lang-hidden">Asia-Europe Routes Hit Hardest</h3>
+      <p data-lang="zh">受航线绕飞、航煤短缺和市场需求变化影响，以下航司已宣布涨价或加收燃油附加费：</p>
+      <p data-lang="en" class="lang-hidden">Rerouting, fuel shortages, and demand shifts have prompted these airlines to raise prices:</p>
+      <div class="pill-list">
+        <span class="pill" data-lang="zh">🇭🇰 香港航空 <span class="val">+35.2%</span></span>
+        <span class="pill lang-hidden" data-lang="en">🇭🇰 Hong Kong Airlines <span class="val">+35.2%</span></span>
+        <span class="pill" data-lang="zh">🇮🇳 印度航空 <span class="val">分阶段涨价</span></span>
+        <span class="pill lang-hidden" data-lang="en">🇮🇳 Air India <span class="val">phased increase</span></span>
+        <span class="pill" data-lang="zh">🇦🇺 澳航 Qantas <span class="val">已涨价</span></span>
+        <span class="pill lang-hidden" data-lang="en">🇦🇺 Qantas <span class="val">prices raised</span></span>
+        <span class="pill" data-lang="zh">🇳🇿 新西兰航空 <span class="val">全航线涨价</span></span>
+        <span class="pill lang-hidden" data-lang="en">🇳🇿 Air New Zealand <span class="val">all routes</span></span>
+        <span class="pill" data-lang="zh">🇸🇪 SAS <span class="val">临时调价</span></span>
+        <span class="pill lang-hidden" data-lang="en">🇸🇪 SAS <span class="val">temporary adjustment</span></span>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label" data-lang="zh">航煤之前</div>
+        <div class="label lang-hidden" data-lang="en">Jet Fuel Before</div>
+        <div class="value">$85-90</div>
+        <div class="sub" data-lang="zh">每桶</div>
+        <div class="sub lang-hidden" data-lang="en">per barrel</div>
+      </div>
+      <div class="info-item">
+        <div class="label" data-lang="zh">航煤现在</div>
+        <div class="label lang-hidden" data-lang="en">Jet Fuel Now</div>
+        <div class="value" style="color: var(--red);">$150-200</div>
+        <div class="sub" data-lang="zh">每桶 (↑80%+)</div>
+        <div class="sub lang-hidden" data-lang="en">per barrel (↑80%+)</div>
+      </div>
+      <div class="info-item">
+        <div class="label" data-lang="zh">航班取消</div>
+        <div class="label lang-hidden" data-lang="en">Flights Cancelled</div>
+        <div class="value" style="color: var(--red);">43,000+</div>
+        <div class="sub" data-lang="zh">自2月底</div>
+        <div class="sub lang-hidden" data-lang="en">since late Feb</div>
+      </div>
+      <div class="info-item">
+        <div class="label" data-lang="zh">香港航空</div>
+        <div class="label lang-hidden" data-lang="en">HK Airlines</div>
+        <div class="value" style="color: var(--red);">+35.2%</div>
+        <div class="sub" data-lang="zh">燃油附加费</div>
+        <div class="sub lang-hidden" data-lang="en">fuel surcharge</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">💳</span>
+      <h2 data-lang="zh">里程票会受影响吗？</h2>
+      <h2 data-lang="en" class="lang-hidden">Will Award Tickets Be Affected?</h2>
+    </div>
+
+    <div class="highlight-card">
+      <p data-lang="zh" class="text-bright">好消息：里程票本身不收燃油附加费！但以下几点需要注意：</p>
+      <p data-lang="en" class="lang-hidden text-bright">Good news: award tickets don't have fuel surcharges! But watch for these:</p>
+      <div class="pill-list">
+        <span class="pill" data-lang="zh">✅ 里程票 <span class="val">不含燃油费</span></span>
+        <span class="pill lang-hidden" data-lang="en">✅ Award Tickets <span class="val">no fuel surcharge</span></span>
+        <span class="pill" data-lang="zh">⚠️ 航司可能 <span class="warn">上调里程需求</span></span>
+        <span class="pill lang-hidden" data-lang="en">⚠️ Airlines may <span class="warn">raise mileage costs</span></span>
+        <span class="pill" data-lang="zh">⚠️ 座位可能 <span class="warn">减少</span></span>
+        <span class="pill lang-hidden" data-lang="en">⚠️ Availability <span class="warn">may shrink</span></span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <p data-lang="zh"><strong>为什么里程票更划算？</strong>现金票要付燃油附加费(约$50-150)，而里程票只付税费+少量YQ。现在航司现金票涨价，里程票的相对价值反而提升了！</p>
+      <p data-lang="en" class="lang-hidden"><strong>Why award tickets are better:</strong> Cash tickets include fuel surcharges ($50-150). Award tickets only pay taxes + minimal YQ. With cash fares rising, award ticket value improves!</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🛡️</span>
+      <h2 data-lang="zh">应对策略：3招帮你省钱</h2>
+      <h2 data-lang="en" class="lang-hidden">Strategy: 3 Ways to Save</h2>
+    </div>
+
+    <ul class="strategy-list">
+      <li>
+        <span class="strategy-num">1</span>
+        <div>
+          <strong data-lang="zh">尽快锁定里程票</strong>
+          <strong data-lang="en" class="lang-hidden">Lock in award tickets now</strong>
+          <p data-lang="zh">航司通常提前330天放票。现在正是锁定下半年出行里程票的好时机，尤其是亚洲-欧洲航线。Amex MR、Chase UR、Citi TYP 都能转航司。</p>
+          <p data-lang="en" class="lang-hidden">Airlines release seats ~330 days out. Lock in award tickets for late 2026 now, especially Asia-Europe routes. Amex MR, Chase UR, Citi TYP all transfer to airlines.</p>
+        </div>
+      </li>
+      <li>
+        <span class="strategy-num">2</span>
+        <div>
+          <strong data-lang="zh">避开中东航司，选寰宇/星空</strong>
+          <strong data-lang="en" class="lang-hidden">Avoid Middle East carriers, use Oneworld/Star Alliance</strong>
+          <p data-lang="zh">卡塔尔、阿联酋EK等中东航司的燃油附加费本来就高，现在更贵。改走国泰(寰宇)、新加坡航空(星空)更稳定。</p>
+          <p data-lang="en" class="lang-hidden">Qatar and Emirates already have high surcharges — now even higher. Cathay (Oneworld) and Singapore Airlines (Star Alliance) are more stable.</p>
+        </div>
+      </li>
+      <li>
+        <span class="strategy-num">3</span>
+        <div>
+          <strong data-lang="zh">考虑开口程/停留，最大化里程价值</strong>
+          <strong data-lang="en" class="lang-hidden">Use open-jaws/stops to maximize mile value</strong>
+          <p data-lang="zh">比如换北京-伦敦开口程，中间巴黎停留，12.5万亚万就能搞定(需绕过大陆出发限制)。现金票涨了，里程票相当于变相升值。</p>
+          <p data-lang="en" class="lang-hidden">e.g., Beijing-London open-jaw with Paris stop, ~125k Asia Miles. With cash fares up, your miles are worth more.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🔭</span>
+      <h2 data-lang="zh">接下来会怎样？</h2>
+      <h2 data-lang="en" class="lang-hidden">What's Next?</h2>
+    </div>
+
+    <div class="highlight-card">
+      <p data-lang="zh" class="text-bright">分析师警告：如果冲突持续，航煤供应可能进一步紧张。部分对冲了燃油成本的航司(如英航IAG、汉莎)短期内不会大幅涨价，但中小航司可能继续加价。</p>
+      <p data-lang="en" class="lang-hidden text-bright">Analysts warn: if the conflict continues, jet fuel supply could tighten further. Airlines with fuel hedges (BA/IAG, Lufthansa) won't raise prices dramatically short-term, but smaller carriers may continue hiking.</p>
+    </div>
+
+    <div class="tip-box">
+      <p data-lang="zh"><strong>建议：</strong>如果你有下半年出行计划，现在用里程锁定。特别是中美/中欧商务舱，现金票涨起来肉疼，里程票且用且珍惜。</p>
+      <p data-lang="en" class="lang-hidden"><strong>Tip:</strong> If you have travel plans for H2 2026, lock in award tickets now. Especially for China-US/Europe business class — cash fares hurt, award tickets are precious.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span data-lang="zh">© 2026 积分猎人在北美 · 数据仅供参考，请以官网为准</span>
+  <span data-lang="en" class="lang-hidden">© 2026 Points Hunter NA · Always verify with the official source before acting</span>
+</footer>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  let lang = params.get('lang') || localStorage.getItem('ph-lang') || 'zh';
+  function setLang(l) {
+    lang = l;
+    localStorage.setItem('ph-lang', l);
+    document.getElementById('btn-en').classList.toggle('active', l === 'en');
+    document.getElementById('btn-zh').classList.toggle('active', l === 'zh');
+    document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.classList.toggle('lang-hidden', el.dataset.lang !== l);
+    });
+  }
+  setLang(lang);
+</script>
+</body>
+</html>
